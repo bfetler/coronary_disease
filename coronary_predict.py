@@ -83,20 +83,30 @@ def plot_hists(df, plotdir, ncols=3):
         plt.tick_params(labelbottom='off', labelleft='off')
     plt.savefig(plotdir + 'hist_coronary.png')
 
-def confusion_report(dftest_y, new_y):
-    print("classification report\n%s" % classification_report(dftest_y['Y'], new_y))
-    cm = confusion_matrix(dftest_y['Y'], new_y)
+def confusion_report(test_y, new_y):
+    print("classification report\n%s" % classification_report(test_y['Y'], new_y))
+    cm = confusion_matrix(test_y['Y'], new_y)
     print("confusion matrix\n%s" % cm)
 
-def fit_predict(clf, dftrain, dftrain_y, dftest, dftest_y, label='x'):
-#    print("fit shapes", dftrain.shape, dftrain_y.shape, dftest.shape, dftest_y.shape)
-    clf.fit(dftrain, dftrain_y['Y'])
-    fit_score = clf.score(dftrain, dftrain_y['Y'])
-    pred_score = clf.score(dftest, dftest_y['Y'])
-    new_y = clf.predict(dftest)
+def fit_predict(clf, train_X, train_y, test_X, test_y, label='x'):
+#    print("fit shapes", train_X.shape, train_y.shape, test_X.shape, test_y.shape)
+    clf.fit(train_X, train_y['Y'])
+    fit_score = clf.score(train_X, train_y['Y'])
+    pred_score = clf.score(test_X, test_y['Y'])
+#    new_y = clf.predict(test_X)
     print("%s: fit score %.5f, predict score %.5f" % (label, fit_score, pred_score))
-#    confusion_report(dftest_y, new_y)
+#    confusion_report(test_y, new_y)
     return pred_score
+
+def cross_validate(clf, train_X, train_y, print_out=False):
+    "Cross-validate fit scores.  Dataset is too small to be very reliable though."
+    scores = cross_val_score(clf, train_X, train_y, cv=8)
+    score = scores.mean()
+    score_std = scores.std()
+    if print_out:
+        print("  CV scores mean %.4f +- %.4f" % (score, 2.0 * score_std))
+        print("  CV raw scores", scores)
+    return score
 
 def main():
     train_X, test_X, train_y, test_y = load_data('cleveland', print_out=False)
@@ -105,8 +115,11 @@ def main():
 #    plot_hists(train_X, plotdir)    # fails
     clf = lr()
     fit_predict(clf, train_X, train_y, test_X, test_y, label='logistic')
-    clf = LinearSVC()   # why is score somewhat randomized?
+    cross_validate(clf, train_X, train_y['Y'], print_out=True)
+    
+    clf = LinearSVC()   # why is score somewhat randomized?  try norm?
     fit_predict(clf, train_X, train_y, test_X, test_y, label='svc')
+    cross_validate(clf, train_X, train_y['Y'], print_out=True)
 
 if __name__ == '__main__':
     main()
