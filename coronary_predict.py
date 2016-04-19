@@ -8,6 +8,7 @@ from pandas.tools.plotting import scatter_matrix as pd_scatter_matrix
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+from sklearn.preprocessing import StandardScaler
 from sklearn.cross_validation import train_test_split, cross_val_score
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.svm import LinearSVC
@@ -44,7 +45,7 @@ def load_data(name, print_out=True):
     df = read_data(name)
 #    train = df[:210]
 #    test  = df[210:]
-    train, test = train_test_split(df, test_size=0.3, random_state=10)
+    train, test = train_test_split(df, test_size=0.3)  # random_state=10
     yvars = ['risk', 'Y']
     train_y = train[yvars]
     test_y  = test[yvars]
@@ -52,6 +53,7 @@ def load_data(name, print_out=True):
     train = train.drop(['risk', 'Y'], axis=1)
     test  = test.drop(['risk', 'Y'],  axis=1)
     if print_out:
+        print("train test types %s %s %s %s" % (type(train), type(test), type(train_y), type(test_y)))
         print("train test shapes %s %s %s %s" % (train.shape, test.shape, train_y.shape, test_y.shape))
         print("train head\n%s" % (train[:3]))
         print("test head\n%s" % (test[:3]))
@@ -71,14 +73,19 @@ def plot_scatter_matrix(df, plotdir):
 
 def plot_hists(df, plotdir, ncols=3):
     plt.clf()
-    vlist = df.columns
+    vlist = list(df.columns)
+    vlist.pop()  # last itme has only one bin
     print("vlist", vlist)
     nrows = len(vlist) // ncols
     if len(vlist) % ncols > 0:
         nrows += 1
     for i, var in enumerate(vlist):
         plt.subplot(nrows, ncols, i+1)
-        plt.hist(df[var])   # bins=30
+        nbin = len(set(var))
+#        if nbin > 10:
+#            nbin = 10   # all < 10
+        print("var %s nbin %d" % (var, nbin))
+        plt.hist(df[var], bins=nbin)   # bins=30
         plt.title(var, fontsize=10)
         plt.tick_params(labelbottom='off', labelleft='off')
     plt.savefig(plotdir + 'hist_coronary.png')
@@ -108,18 +115,41 @@ def cross_validate(clf, train_X, train_y, print_out=False):
         print("  CV raw scores", scores)
     return score
 
+def scale_data(train_X, test_X, print_out=False):
+    '''Scale data for transform, read dataframes, return nparrays.'''
+    scaler = StandardScaler()
+    train_X = scaler.fit_transform(train_X)  # nparray
+    test_X  = scaler.transform(test_X)
+    if print_out:
+        print("scaler mean %s\nscaler std %s" % (scaler.mean_, scaler.scale_))
+        print("train means %s" % [train_X[:, j].mean() for j in range(train_X.shape[1]) ])
+        print("train std %s" % [train_X[:, j].std() for j in range(train_X.shape[1]) ])
+        print("test means %s" % [test_X[:, j].mean() for j in range(test_X.shape[1]) ])
+        print("test std %s" % [test_X[:, j].std() for j in range(test_X.shape[1]) ])
+        # train_X columns are scaled by definition, test_X off by 1-2% (not surprising)
+        print("train_X mean %.5f std %.5f" % (train_X.mean(), train_X.std()))
+        print("test_X mean %.5f std %.5f" % (test_X.mean(), test_X.std()))
+    # scaler.inverse_transform(train_X)
+    return train_X, test_X
+
 def main():
     train_X, test_X, train_y, test_y = load_data('cleveland', print_out=False)
 #    plotdir = make_plotdir()
 #    plot_scatter_matrix(train_X, plotdir)  # takes a while, not that useful 
 #    plot_hists(train_X, plotdir)    # fails
+    
+    train_X, test_X = scale_data(train_X, test_X)
+    
     clf = lr()
     fit_predict(clf, train_X, train_y, test_X, test_y, label='logistic')
     cross_validate(clf, train_X, train_y['Y'], print_out=True)
-    
-    clf = LinearSVC()   # why is score somewhat randomized?  try norm?
+
+    clf = LinearSVC()   # score somewhat randomized if not scaled
     fit_predict(clf, train_X, train_y, test_X, test_y, label='svc')
     cross_validate(clf, train_X, train_y['Y'], print_out=True)
+    
+    # repeated runs gives cv scores 0.7 to 0.9, 2*std 0.1 to 0.2
+    # almost the same for lr, svc; depends on random train_test_split
 
 if __name__ == '__main__':
     main()
