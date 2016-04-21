@@ -10,16 +10,51 @@ Data exploration and prediction is given in __coronary_predict.py__, and script 
 
 Histograms of train and test data typically show similar patterns, so that variable column values are typically uniformly distributed between train and test.  
 
-<img src="" />
-<img src="" />
+<img src="https://github.com/bfetler/coronary_disease/blob/master/coronary_disease_plots/hist_coronary_train.png" alt="coronary training data histograms" />
+<img src="https://github.com/bfetler/coronary_disease/blob/master/coronary_disease_plots/hist_coronary_test.png" alt="coronary test data histograms" />
 
-If we pretend that the training data is much larger, and that the test data comes in batches periodically, we can compare the variable distributions between train and test data to see if any anomalies stand out, showing that the incoming data is statistically different from training data and may need attention.  This was done using a T-Test comparing each column of variables in train and test, with typical p-values given in the table below.  
+If we pretend that the training data is much larger, and that the test data comes in batches periodically, we can compare the variable distributions between train and test data to see if any anomalies stand out, showing that the incoming data is statistically different from training data and may need attention.  This was done using a T-Test comparing each column of variables in train and test, with typical p-values (all > 0.05, not significantly different) given in the table below.  
 
 <table>
 <tr>
-<td>value a</td>
-<td>value b</td>
+<td><strong>variable</strong></td>
+<td>age</td>
+<td>sex</td>
+<td>cp</td>
+<td>trestbps</td>
+<td>chol</td>
+<td>fbs</td>
+<td>restecg</td>
 </tr>
+<tr>
+<td><strong>p-value</strong></td>
+<td>0.8432</td>
+<td>0.4058</td>
+<td>0.3108</td>
+<td>0.8072</td>
+<td>0.2580</td>
+<td>0.7127</td>
+<td>0.1750</td>
+</tr>
+</table>
+<table>
+<tr>
+<td><strong>variable</strong></td>
+<td>thalach</td>
+<td>exang</td>
+<td>oldpeak</td>
+<td>slope</td>
+<td>ca</td>
+<td>thal</td>
+</tr>
+<tr>
+<td><strong>p-value</strong></td>
+<td>0.1305</td>
+<td>0.0758</td>
+<td>0.6974</td>
+<td>0.3320</td>
+<td>0.4137</td>
+<td>0.8071</td>
 </table>
 
 #### Prediction
