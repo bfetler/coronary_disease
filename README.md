@@ -26,7 +26,7 @@ As there are no significant anomalies in the data, we proceed to fit the trainin
 After normalizing the data columns, we find the training data fits the presence or absence of coronary disease with 80% accuracy using either method.  A standard error of 10% was estimated by cross-validation.  
 
 #### Evaluating Incoming Test Data
-If we pretend that the test data comes in batches periodically in production, we can compare the variable distributions between train and test data to see if any anomalies stand out, to test if incoming data is statistically different from training data and may need attention.  This was done using an [Independent T-Test](http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.stats.ttest_ind.html) comparing each column of variables in train and test, with typical p-values given in the table below (all > 0.05, no significant difference).  
+If we pretend that the test data comes in batches periodically in production, we can compare the variable distributions between train and test data to see if any anomalies stand out, to check if incoming data is statistically different from training data and may need attention.  This was done using an [Independent T-Test](http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.stats.ttest_ind.html) comparing each column of variables in train and test data, with typical p-values given in the table below (all > 0.05, no significant difference).  
 
 <table>
 <tr>
