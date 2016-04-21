@@ -33,12 +33,12 @@ def read_data(name):
     col_names = ['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach', \
         'exang', 'oldpeak', 'slope', 'ca', 'thal', 'risk']
     df = pd.read_csv(f, names = col_names)
-    # check for ? missing values - six of 'em
-    # check for just ? or any non-numeric character
+    # check for ? missing values - six in mostly different columns
+    # no other non-numeric characters
     for c in col_names:
         df[c] = df[c].apply(lambda s: np.nan if s=='?' else float(s))
+        # columns w/ ? are str not int, convert to float
     df = df.dropna()
-    # maybe columns w/ ? are str not int, need to convert
     df['Y'] = df['risk'].apply(lambda x: 1 if x>0 else 0)
     print("raw df shape %s head\n%s" % (df.shape, df[:3]))
 #    print("raw df stats\n%s" % df.describe())
@@ -88,7 +88,7 @@ def test_incoming(test_X, train_X):
     print("    --------  ------   ----")
     for var in vlist:
         pval = sst.ttest_ind(test_X[var], train_X[var]).pvalue
-        print("    %-8s  %.4f   %s" % (var, pval, pval>0.05))
+        print("    %-8s  %.3f    %s" % (var, pval, pval>0.05))
 #       assert(pval > 0.05)  # in production, assert each column passes
 # if only one or few values at a time, test where they are in train distribution
 # is this a good idea?
@@ -96,12 +96,15 @@ def test_incoming(test_X, train_X):
 def plot_scatter_matrix(df, plotdir):
     "Plot scatter matrix."
     plt.clf()
-    pd_scatter_matrix(df)
+    pd_scatter_matrix(df, figsize=(10,10))
+    plt.suptitle("Scatter Matrix", fontsize=14)
     plt.savefig(plotdir + 'scatter_matrix.png')
 
 def plot_hists(df, plotdir, label='x', ncols=3):
     "Plot histograms of data columns in one plot."
     plt.clf()
+    f = plt.figure(1)
+    f.suptitle(label + " Data Histograms")
     vlist = list(df.columns)
     nrows = len(vlist) // ncols
     if len(vlist) % ncols > 0:
@@ -111,7 +114,7 @@ def plot_hists(df, plotdir, label='x', ncols=3):
         plt.hist(df[var].values, bins=15)
         plt.title(var, fontsize=9)
         plt.tick_params(labelbottom='off', labelleft='off')
-    plt.savefig(plotdir + 'hist_coronary_' + label + '.png')
+    plt.savefig(plotdir + 'hist_coronary_' + label.lower() + '.png')
 
 def confusion_report(test_y, new_y):
     "Create classification report and confusion matrix."
@@ -129,15 +132,15 @@ def fit_predict(clf, train_X, train_y, test_X, test_y, label='x'):
 #    confusion_report(test_y, new_y)
     return pred_score
 
-def cross_validate(clf, train_X, train_y, print_out=False):
+def cross_validate(clf, train_X, train_y, cv=5, print_out=False):
     "Cross-validate fit scores.  Dataset is too small to be very reliable though."
-    scores = cross_val_score(clf, train_X, train_y, cv=8)
+    scores = cross_val_score(clf, train_X, train_y, cv=cv)
     score = scores.mean()
     score_std = scores.std()
     if print_out:
         print("  CV scores mean %.4f +- %.4f" % (score, 2.0 * score_std))
         print("  CV raw scores", scores)
-    return score
+    return score, scores
 
 def main():
     train_X, test_X, train_y, test_y = load_data('cleveland', print_out=False)
@@ -145,8 +148,8 @@ def main():
     
     plotdir = make_plotdir()
 #    plot_scatter_matrix(train_X, plotdir)  # takes a while, not that useful 
-    plot_hists(train_X, plotdir, label='train')
-    plot_hists(test_X, plotdir, label='test')
+    plot_hists(train_X, plotdir, label='Train')
+    plot_hists(test_X, plotdir, label='Test')
     
     train_X, test_X = scale_data(train_X, test_X)
     
@@ -156,7 +159,7 @@ def main():
 
     clf = LinearSVC()   # score somewhat randomized if not scaled
     fit_predict(clf, train_X, train_y, test_X, test_y, label='svc')
-    cross_validate(clf, train_X, train_y['Y'], print_out=True)
+    cross_validate(clf, train_X, train_y['Y'], cv=8, print_out=True)
     
     # repeated runs gives cv scores 0.7 to 0.9, 2*std 0.1 to 0.2
     # almost the same for lr, svc; depends on random train_test_split

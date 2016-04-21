@@ -12,25 +12,24 @@ raw df shape (297, 15) head
 t-test compare train, test data
     variable  pvalue   Pass
     --------  ------   ----
-    age       0.8432   True
-    sex       0.4058   True
-    cp        0.3108   True
-    trestbps  0.8072   True
-    chol      0.2580   True
-    fbs       0.7127   True
-    restecg   0.1750   True
-    thalach   0.1305   True
-    exang     0.0758   True
-    oldpeak   0.6974   True
-    slope     0.3320   True
-    ca        0.4137   True
-    thal      0.8071   True
-logistic: fit score 0.85990, predict score 0.84444
-  CV scores mean 0.8163 +- 0.0937
-  CV raw scores [ 0.81481481  0.84615385  0.88461538  0.80769231  0.84615385  0.73076923
-  0.76        0.84      ]
-svc: fit score 0.86473, predict score 0.83333
-  CV scores mean 0.7967 +- 0.1034
-  CV raw scores [ 0.81481481  0.84615385  0.84615385  0.80769231  0.84615385  0.69230769
-  0.76        0.76      ]
+    age       0.751    True
+    sex       0.406    True
+    cp        0.377    True
+    trestbps  0.935    True
+    chol      0.381    True
+    fbs       0.991    True
+    restecg   0.869    True
+    thalach   0.965    True
+    exang     0.216    True
+    oldpeak   0.411    True
+    slope     0.877    True
+    ca        0.277    True
+    thal      0.858    True
+logistic: fit score 0.86957, predict score 0.82222
+  CV scores mean 0.8351 +- 0.0869
+  CV raw scores [ 0.90697674  0.82926829  0.85365854  0.80487805  0.7804878 ]
+svc: fit score 0.87440, predict score 0.81111
+  CV scores mean 0.8495 +- 0.0852
+  CV raw scores [ 0.92592593  0.81481481  0.88888889  0.84615385  0.8         0.84        0.8
+  0.88      ]
 
