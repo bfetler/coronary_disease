@@ -90,6 +90,8 @@ def test_incoming(test_X, train_X):
         pval = sst.ttest_ind(test_X[var], train_X[var]).pvalue
         print("    %-8s  %.4f   %s" % (var, pval, pval>0.05))
 #       assert(pval > 0.05)  # in production, assert each column passes
+# if only one or few values at a time, test where they are in train distribution
+# is this a good idea?
 
 def plot_scatter_matrix(df, plotdir):
     "Plot scatter matrix."
