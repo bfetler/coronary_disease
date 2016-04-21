@@ -10,7 +10,9 @@ Data exploration and prediction is given in __coronary_predict.py__, and script 
 
 Histograms of train and test data typically show similar patterns, so that variable column values are typically uniformly distributed between train and test.  
 
+#### Training Data Histograms
 <img src="https://github.com/bfetler/coronary_disease/blob/master/coronary_disease_plots/hist_coronary_train.png" alt="coronary training data histograms" />
+#### Test Data Distograms
 <img src="https://github.com/bfetler/coronary_disease/blob/master/coronary_disease_plots/hist_coronary_test.png" alt="coronary test data histograms" />
 
 If we pretend that the training data is much larger, and that the test data comes in batches periodically, we can compare the variable distributions between train and test data to see if any anomalies stand out, showing that the incoming data is statistically different from training data and may need attention.  This was done using a T-Test comparing each column of variables in train and test, with typical p-values (all > 0.05, not significantly different) given in the table below.  
@@ -25,21 +27,6 @@ If we pretend that the training data is much larger, and that the test data come
 <td>chol</td>
 <td>fbs</td>
 <td>restecg</td>
-</tr>
-<tr>
-<td><strong>p-value</strong></td>
-<td>0.8432</td>
-<td>0.4058</td>
-<td>0.3108</td>
-<td>0.8072</td>
-<td>0.2580</td>
-<td>0.7127</td>
-<td>0.1750</td>
-</tr>
-</table>
-<table>
-<tr>
-<td><strong>variable</strong></td>
 <td>thalach</td>
 <td>exang</td>
 <td>oldpeak</td>
@@ -49,12 +36,19 @@ If we pretend that the training data is much larger, and that the test data come
 </tr>
 <tr>
 <td><strong>p-value</strong></td>
-<td>0.1305</td>
-<td>0.0758</td>
-<td>0.6974</td>
-<td>0.3320</td>
-<td>0.4137</td>
-<td>0.8071</td>
+<td>0.843</td>
+<td>0.406</td>
+<td>0.311</td>
+<td>0.807</td>
+<td>0.258</td>
+<td>0.713</td>
+<td>0.175</td>
+<td>0.131</td>
+<td>0.076</td>
+<td>0.697</td>
+<td>0.332</td>
+<td>0.414</td>
+<td>0.807</td>
 </table>
 
 #### Prediction
