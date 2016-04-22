@@ -145,6 +145,7 @@ def cross_validate(clf, train_X, train_y, cv=5, print_out=False):
 def main():
     train_X, test_X, train_y, test_y = load_data('cleveland', print_out=False)
     test_incoming(test_X, train_X)
+#    print("len train_X %d, test_X %d" % (len(train_X), len(test_X)))
     
     plotdir = make_plotdir()
 #    plot_scatter_matrix(train_X, plotdir)  # takes a while, not that useful 
