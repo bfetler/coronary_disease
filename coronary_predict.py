@@ -31,8 +31,11 @@ def read_data(name):
     "Read and clean data from file."
     f = "data/processed.%s.data" % (name)
     print("read %s" % f)
-    col_names = ['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach', \
-        'exang', 'oldpeak', 'slope', 'ca', 'thal', 'risk']
+#    col_names = ['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach', \
+#        'exang', 'oldpeak', 'slope', 'ca', 'thal', 'risk']
+    col_names = ['age', 'sex', 'chest_pain', 'blood_pressure', 'cholesterol', \
+        'blood_sugar_up', 'rest_ecg_type', 'max_heart_rate', 'exercise_angina', \
+        'exer_depression', 'exer_peak_slope', 'fluor_count', 'thal_defect', 'risk']
     df = pd.read_csv(f, names = col_names)
     # check for ? missing values - six in mostly different columns
     # no other non-numeric characters
@@ -85,11 +88,11 @@ def test_incoming(test_X, train_X):
     '''Pretend we have streaming data coming in.  Run a few
        statistical tests on it, see if it's close to training data.'''
     vlist = list(train_X.columns)
-    print("t-test compare train, test data\n    variable  pvalue   Pass")
-    print("    --------  ------   ----")
+    print("t-test compare train, test data\n    variable         pvalue   Pass")
+    print("    ---------------  ------   ----")
     for var in vlist:
         pval = sst.ttest_ind(test_X[var], train_X[var]).pvalue
-        print("    %-8s  %.3f    %s" % (var, pval, pval>0.05))
+        print("    %-15s  %.3f    %s" % (var, pval, pval>0.05))
 #       assert(pval > 0.05)  # in production, assert each column passes
 # if only one or few values at a time, test where they are in train distribution
 # is this a good idea?
