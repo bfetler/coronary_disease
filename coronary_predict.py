@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import scipy.stats as sst
 from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
 from sklearn.cross_validation import train_test_split, cross_val_score
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.svm import LinearSVC
@@ -142,6 +143,12 @@ def cross_validate(clf, train_X, train_y, cv=5, print_out=False):
         print("  CV raw scores", scores)
     return score, scores
 
+def explore_pca(train_X):
+    pca = PCA()
+    pout = pca.fit(train_X)
+    print("explained variance ratio\n", pout.explained_variance_ratio_)
+# no huge advantage, takes 8 comps out of 13 to reach 80% total variance
+
 def main():
     train_X, test_X, train_y, test_y = load_data('cleveland', print_out=False)
     test_incoming(test_X, train_X)
@@ -161,6 +168,8 @@ def main():
     clf = LinearSVC()   # score somewhat randomized if not scaled
     fit_predict(clf, train_X, train_y, test_X, test_y, label='svc')
     cross_validate(clf, train_X, train_y['Y'], cv=8, print_out=True)
+    
+    explore_pca(train_X)
     
     # repeated runs gives cv scores 0.7 to 0.9, 2*std 0.1 to 0.2
     # almost the same for lr, svc; depends on random train_test_split
