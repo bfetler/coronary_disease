@@ -9,6 +9,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import scipy.stats as sst
+from statsmodels.api import Logit as smLogit
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.cross_validation import train_test_split, cross_val_score
@@ -149,11 +150,31 @@ def cross_validate(clf, train_X, train_y, cv=5, print_out=False):
 def explore_pca(train_X):
     pca = PCA()
     pout = pca.fit(train_X)
-    print("explained variance ratio\n", pout.explained_variance_ratio_)
+    print("PCA explained variance ratio\n", pout.explained_variance_ratio_)
 # no huge advantage, takes 8 comps out of 13 to reach 80% total variance
+
+def do_logit(train_X, train_y, X_labels):
+    "do logit fit"
+    dfx = pd.DataFrame( train_X )
+    dfx['const'] = 1.0    # need const for logit fit
+    dfx = np.array(dfx)
+    logit = smLogit( train_y['Y'], dfx )  # train_X[indep_variables]
+    result = logit.fit(disp=False)    # remove noisy output
+    X_labels.append('constant')
+    
+    plist = ((lab, val) for lab, val in zip(X_labels, result.params.values))
+    plist = sorted(plist, key=lambda e: np.abs(e[1]), reverse=True)
+    plist = pd.Series(data = (e[1] for e in plist), index = (e[0] for e in plist))
+#    print('p(x) = 1 / (1 + exp(a1*x1 + a2*x2 + b))  "logistic function"')
+    print("Columns by logistic fit importance (order depends on random split)\n%s" % plist)
+# usually in top 4-5: ['fluor_count', 'thal_defect', 'sex', 'max_heart_rate']
+
+    return result.params
+
 
 def main():
     train_X, test_X, train_y, test_y = load_data('cleveland', print_out=False)
+    X_labels = list(train_X.columns)
     test_incoming(test_X, train_X)
 #    print("len train_X %d, test_X %d" % (len(train_X), len(test_X)))
     
@@ -173,6 +194,8 @@ def main():
     cross_validate(clf, train_X, train_y['Y'], cv=8, print_out=True)
     
     explore_pca(train_X)
+    
+    do_logit(train_X, train_y, X_labels)
     
     # repeated runs gives cv scores 0.7 to 0.9, 2*std 0.1 to 0.2
     # almost the same for lr, svc; depends on random train_test_split

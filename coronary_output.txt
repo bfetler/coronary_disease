@@ -1,35 +1,60 @@
 read data/processed.cleveland.data
 raw df shape (297, 15) head
-   age  sex  cp  trestbps  chol  fbs  restecg  thalach  exang  oldpeak  slope  \
-0   63    1   1       145   233    1        2      150      0      2.3      3   
-1   67    1   4       160   286    0        2      108      1      1.5      2   
-2   67    1   4       120   229    0        2      129      1      2.6      2   
+   age  sex  chest_pain  blood_pressure  cholesterol  blood_sugar_up  \
+0   63    1           1             145          233               1   
+1   67    1           4             160          286               0   
+2   67    1           4             120          229               0   
 
-   ca  thal  risk  Y  
-0   0     6     0  0  
-1   3     3     2  1  
-2   2     7     1  1  
+   rest_ecg_type  max_heart_rate  exercise_angina  exer_depression  \
+0              2             150                0              2.3   
+1              2             108                1              1.5   
+2              2             129                1              2.6   
+
+   exer_peak_slope  fluor_count  thal_defect  risk  Y  
+0                3            0            6     0  0  
+1                2            3            3     2  1  
+2                2            2            7     1  1  
 t-test compare train, test data
-    variable  pvalue   Pass
-    --------  ------   ----
-    age       0.751    True
-    sex       0.406    True
-    cp        0.377    True
-    trestbps  0.935    True
-    chol      0.381    True
-    fbs       0.991    True
-    restecg   0.869    True
-    thalach   0.965    True
-    exang     0.216    True
-    oldpeak   0.411    True
-    slope     0.877    True
-    ca        0.277    True
-    thal      0.858    True
-logistic: fit score 0.86957, predict score 0.82222
-  CV scores mean 0.8351 +- 0.0869
-  CV raw scores [ 0.90697674  0.82926829  0.85365854  0.80487805  0.7804878 ]
-svc: fit score 0.87440, predict score 0.81111
-  CV scores mean 0.8495 +- 0.0852
-  CV raw scores [ 0.92592593  0.81481481  0.88888889  0.84615385  0.8         0.84        0.8
-  0.88      ]
+    variable         pvalue   Pass
+    ---------------  ------   ----
+    age              0.920    True
+    sex              0.293    True
+    chest_pain       0.160    True
+    blood_pressure   0.919    True
+    cholesterol      0.705    True
+    blood_sugar_up   0.468    True
+    rest_ecg_type    0.138    True
+    max_heart_rate   0.532    True
+    exercise_angina  0.076    True
+    exer_depression  0.746    True
+    exer_peak_slope  0.509    True
+    fluor_count      0.779    True
+    thal_defect      0.987    True
+logistic: fit score 0.83575, predict score 0.88889
+  CV scores mean 0.8216 +- 0.0613
+  CV raw scores [ 0.78571429  0.78571429  0.85714286  0.82926829  0.85      ]
+svc: fit score 0.84541, predict score 0.87778
+  CV scores mean 0.8223 +- 0.1260
+  CV raw scores [ 0.81481481  0.7037037   0.84615385  0.76923077  0.88461538  0.92        0.8
+  0.84      ]
+PCA explained variance ratio
+ [ 0.22674353  0.13410038  0.10052562  0.08603627  0.07882335  0.06514056
+  0.06442832  0.06075385  0.05438143  0.03814942  0.03519655  0.03020613
+  0.02551459]
+Columns by logistic fit importance (order depends on random split)
+fluor_count        1.145077
+thal_defect        0.651739
+max_heart_rate    -0.571383
+sex                0.509873
+exercise_angina    0.415938
+exer_depression    0.392194
+blood_sugar_up    -0.370833
+rest_ecg_type      0.284301
+age               -0.267036
+blood_pressure     0.228655
+chest_pain         0.209605
+cholesterol        0.171994
+constant          -0.159559
+exer_peak_slope    0.119997
+dtype: float64
 
