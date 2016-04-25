@@ -34,9 +34,9 @@ def read_data(name):
     print("read %s" % f)
 #    col_names = ['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach', \
 #        'exang', 'oldpeak', 'slope', 'ca', 'thal', 'risk']
-    col_names = ['age', 'sex', 'chest_pain', 'blood_pressure', 'cholesterol', \
-        'blood_sugar_up', 'rest_ecg_type', 'max_heart_rate', 'exercise_angina', \
-        'exer_depression', 'exer_peak_slope', 'fluor_count', 'thal_defect', 'risk']
+    col_names = ['age', 'sex', 'chest_pain', 'b_pressure', 'cholesterol', \
+        'b_sugar_up', 'ecg_type', 'heart_rate', 'exer_angina', \
+        'exer_depress', 'exer_slope', 'fluor_count', 'thal_defect', 'risk']
     df = pd.read_csv(f, names = col_names)
     # check for ? missing values - six in mostly different columns
     # no other non-numeric characters
@@ -101,7 +101,7 @@ def test_incoming(test_X, train_X):
 def plot_scatter_matrix(df, plotdir):
     "Plot scatter matrix."
     plt.clf()
-    pd_scatter_matrix(df, figsize=(10,10))
+    pd_scatter_matrix(df, figsize=(14,14))
     plt.suptitle("Scatter Matrix", fontsize=14)
     plt.savefig(plotdir + 'scatter_matrix.png')
 
@@ -119,6 +119,7 @@ def plot_hists(df, plotdir, label='x', ncols=3):
         plt.hist(df[var].values, bins=15)
         plt.title(var, fontsize=9)
         plt.tick_params(labelbottom='off', labelleft='off')
+    plt.tight_layout()
     plt.savefig(plotdir + 'hist_coronary_' + label.lower() + '.png')
 
 def confusion_report(test_y, new_y):
@@ -179,7 +180,7 @@ def main():
 #    print("len train_X %d, test_X %d" % (len(train_X), len(test_X)))
     
     plotdir = make_plotdir()
-#    plot_scatter_matrix(train_X, plotdir)  # takes a while, not that useful 
+    plot_scatter_matrix(train_X, plotdir)  # takes a while, not that useful 
     plot_hists(train_X, plotdir, label='Train')
     plot_hists(test_X, plotdir, label='Test')
     

@@ -1,60 +1,62 @@
 read data/processed.cleveland.data
 raw df shape (297, 15) head
-   age  sex  chest_pain  blood_pressure  cholesterol  blood_sugar_up  \
-0   63    1           1             145          233               1   
-1   67    1           4             160          286               0   
-2   67    1           4             120          229               0   
+   age  sex  chest_pain  b_pressure  cholesterol  b_sugar_up  ecg_type  \
+0   63    1           1         145          233           1         2   
+1   67    1           4         160          286           0         2   
+2   67    1           4         120          229           0         2   
 
-   rest_ecg_type  max_heart_rate  exercise_angina  exer_depression  \
-0              2             150                0              2.3   
-1              2             108                1              1.5   
-2              2             129                1              2.6   
+   heart_rate  exer_angina  exer_depress  exer_slope  fluor_count  \
+0         150            0           2.3           3            0   
+1         108            1           1.5           2            3   
+2         129            1           2.6           2            2   
 
-   exer_peak_slope  fluor_count  thal_defect  risk  Y  
-0                3            0            6     0  0  
-1                2            3            3     2  1  
-2                2            2            7     1  1  
+   thal_defect  risk  Y  
+0            6     0  0  
+1            3     2  1  
+2            7     1  1  
 t-test compare train, test data
     variable         pvalue   Pass
     ---------------  ------   ----
-    age              0.920    True
-    sex              0.293    True
-    chest_pain       0.160    True
-    blood_pressure   0.919    True
-    cholesterol      0.705    True
-    blood_sugar_up   0.468    True
-    rest_ecg_type    0.138    True
-    max_heart_rate   0.532    True
-    exercise_angina  0.076    True
-    exer_depression  0.746    True
-    exer_peak_slope  0.509    True
-    fluor_count      0.779    True
-    thal_defect      0.987    True
-logistic: fit score 0.83575, predict score 0.88889
-  CV scores mean 0.8216 +- 0.0613
-  CV raw scores [ 0.78571429  0.78571429  0.85714286  0.82926829  0.85      ]
-svc: fit score 0.84541, predict score 0.87778
-  CV scores mean 0.8223 +- 0.1260
-  CV raw scores [ 0.81481481  0.7037037   0.84615385  0.76923077  0.88461538  0.92        0.8
-  0.84      ]
+    age              0.374    True
+    sex              0.807    True
+    chest_pain       0.580    True
+    b_pressure       0.085    True
+    cholesterol      0.774    True
+    b_sugar_up       0.278    True
+    ecg_type         0.552    True
+    heart_rate       0.652    True
+    exer_angina      0.916    True
+    exer_depress     0.948    True
+    exer_slope       0.574    True
+    fluor_count      0.990    True
+    thal_defect      0.685    True
+/Users/bfetler/anaconda/envs/pyana3/lib/python3.5/site-packages/matplotlib/tight_layout.py:222: UserWarning: tight_layout : falling back to Agg renderer
+  warnings.warn("tight_layout : falling back to Agg renderer")
+logistic: fit score 0.86957, predict score 0.81111
+  CV scores mean 0.8502 +- 0.1197
+  CV raw scores [ 0.92857143  0.78571429  0.85365854  0.7804878   0.90243902]
+svc: fit score 0.86957, predict score 0.82222
+  CV scores mean 0.8408 +- 0.1173
+  CV raw scores [ 0.88461538  0.92307692  0.80769231  0.80769231  0.88461538  0.73076923
+  0.80769231  0.88      ]
 PCA explained variance ratio
- [ 0.22674353  0.13410038  0.10052562  0.08603627  0.07882335  0.06514056
-  0.06442832  0.06075385  0.05438143  0.03814942  0.03519655  0.03020613
-  0.02551459]
+ [ 0.23331797  0.11758371  0.10322433  0.08577316  0.08007381  0.06889971
+  0.06431819  0.05832037  0.05562002  0.04582519  0.03304207  0.0301769
+  0.02382457]
 Columns by logistic fit importance (order depends on random split)
-fluor_count        1.145077
-thal_defect        0.651739
-max_heart_rate    -0.571383
-sex                0.509873
-exercise_angina    0.415938
-exer_depression    0.392194
-blood_sugar_up    -0.370833
-rest_ecg_type      0.284301
-age               -0.267036
-blood_pressure     0.228655
-chest_pain         0.209605
-cholesterol        0.171994
-constant          -0.159559
-exer_peak_slope    0.119997
+fluor_count     1.339716
+b_sugar_up     -0.820743
+exer_slope      0.817634
+chest_pain      0.812767
+b_pressure      0.760023
+thal_defect     0.721350
+sex             0.652324
+heart_rate     -0.411547
+exer_angina     0.309289
+ecg_type        0.220139
+exer_depress    0.136472
+cholesterol     0.134976
+constant       -0.123582
+age            -0.029035
 dtype: float64
 
