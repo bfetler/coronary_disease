@@ -14,49 +14,74 @@ Histograms of train and test data typically show similar patterns, so that varia
 
 <img src="https://github.com/bfetler/coronary_disease/blob/master/coronary_disease_plots/hist_coronary_test.png" alt="coronary test data histograms" />
 
-#### Modeling and Fitting
-As there are no significant anomalies in the data, we proceed to fit the training set using:
-+ Logistic Regression
-+ LinearSVC Support Vector Classification
-
-After normalizing the data columns, we find the training data fits the presence or absence of coronary disease with 80% accuracy using either method.  A standard error of 10% was estimated by cross-validation.  
-
 #### Evaluating Incoming Test Data
 If we pretend that the test data comes in batches periodically in production, we can compare the variable distributions between train and test data to see if any anomalies stand out, to check if incoming data is statistically different from training data and may need attention.  This was done using an [Independent T-Test](http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.stats.ttest_ind.html) comparing each column of variables in train and test data, with typical p-values given in the table below (all > 0.05, no significant difference).  
 
 <table>
 <tr>
 <td><strong>variable</strong></td>
-<td>age</td>
-<td>sex</td>
-<td>chest_pain</td>
-<td>blood_pressure</td>
-<td>cholesterol</td>
-<td>blood_sugar_up</td>
-<td>rest_ecg_type</td>
-<td>max_heart_rate</td>
-<td>exercise_angina</td>
-<td>exer_depression</td>
-<td>exer_peak_slope</td>
-<td>fluor_count</td>
-<td>thal_defect</td>
+<td><strong>p-value of train, test</strong></td>
 </tr>
 <tr>
-<td><strong>p-value</strong></td>
-<td>0.843</td>
-<td>0.406</td>
-<td>0.311</td>
+<td>age</td>
+<td>0.374</td>
+</tr>
+<tr>
+<td>sex</td>
 <td>0.807</td>
-<td>0.258</td>
-<td>0.713</td>
-<td>0.175</td>
-<td>0.131</td>
-<td>0.076</td>
-<td>0.697</td>
-<td>0.332</td>
-<td>0.414</td>
-<td>0.807</td>
+</tr>
+<tr>
+<td>chest_pain</td>
+<td>0.580</td>
+</tr>
+<tr>
+<td>b_pressure</td>
+<td>0.085</td>
+</tr>
+<tr>
+<td>cholesterol</td>
+<td>0.774</td>
+</tr>
+<tr>
+<td>b_sugar_up</td>
+<td>0.278</td>
+</tr>
+<tr>
+<td>ecg_type</td>
+<td>0.552</td>
+</tr>
+<tr>
+<td>heart_rate</td>
+<td>0.652</td>
+</tr>
+<tr>
+<td>exer_angina</td>
+<td>0.916</td>
+</tr>
+<tr>
+<td>exer_depression</td>
+<td>0.948</td>
+</tr>
+<tr>
+<td>exer_slope</td>
+<td>0.574</td>
+</tr>
+<tr>
+<td>fluor_count</td>
+<td>0.990</td>
+</tr>
+<tr>
+<td>thal_defect</td>
+<td>0.685</td>
+</tr>
 </table>
+
+#### Modeling and Fitting
+As there are no significant anomalies in the data, we proceed to fit the training set using:
++ Logistic Regression
++ LinearSVC Support Vector Classification
+
+After normalizing the data columns, we find the training data fits the presence or absence of coronary disease with 80% accuracy using either method.  A standard error of 10% was estimated by cross-validation.  
 
 #### Prediction
 Assuming we are satisfied there are no significant anomalies in the incoming test data, we proceed with test data prediction using:
