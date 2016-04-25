@@ -10,11 +10,7 @@ Data exploration and prediction is given in __coronary_predict.py__.  The data w
 
 Histograms of train and test data typically show similar patterns, so that variable column values are typically uniformly distributed between train and test.  
 
-<h4 style="text-align:center;">Training Data Histograms</h4>
-
 <img src="https://github.com/bfetler/coronary_disease/blob/master/coronary_disease_plots/hist_coronary_train.png" alt="coronary training data histograms" />
-
-#### Test Data Histograms
 
 <img src="https://github.com/bfetler/coronary_disease/blob/master/coronary_disease_plots/hist_coronary_test.png" alt="coronary test data histograms" />
 
@@ -33,17 +29,17 @@ If we pretend that the test data comes in batches periodically in production, we
 <td><strong>variable</strong></td>
 <td>age</td>
 <td>sex</td>
-<td>cp</td>
-<td>trestbps</td>
-<td>chol</td>
-<td>fbs</td>
-<td>restecg</td>
-<td>thalach</td>
-<td>exang</td>
-<td>oldpeak</td>
-<td>slope</td>
-<td>ca</td>
-<td>thal</td>
+<td>chest_pain</td>
+<td>blood_pressure</td>
+<td>cholesterol</td>
+<td>blood_sugar_up</td>
+<td>rest_ecg_type</td>
+<td>max_heart_rate</td>
+<td>exercise_angina</td>
+<td>exer_depression</td>
+<td>exer_peak_slope</td>
+<td>fluor_count</td>
+<td>thal_defect</td>
 </tr>
 <tr>
 <td><strong>p-value</strong></td>
@@ -69,4 +65,4 @@ Assuming we are satisfied there are no significant anomalies in the incoming tes
 
 After normalizing, we find a prediction score of about 80% using either classifier.   
 
-The fit and prediction scores vary by up to 10% depending on the random split between train and test data, and so are not highly reliable, but indicate a general feasibility of the method.  
+The fit and prediction scores vary by up to 15% depending on the random split between train and test data, and so are not highly reliable, but indicate a general feasibility of the method.  
