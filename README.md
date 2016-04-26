@@ -15,7 +15,7 @@ Histograms of train and test data typically show similar patterns, so that varia
 <img src="https://github.com/bfetler/coronary_disease/blob/master/coronary_disease_plots/hist_coronary_test.png" alt="coronary test data histograms" />
 
 #### Evaluating Incoming Test Data
-If the test data comes in batches periodically in production, we could compare the variable distributions between train and test data to see if any anomalies stand out, to check if incoming data is statistically different from training data and may need attention.  We use the test data to model this, using an [Independent T-Test](http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.stats.ttest_ind.html) comparing each column of variables in train and test data.  Typical p-values given in the table below, all > 0.05 (no significant difference).  
+If the test data comes in batches periodically in production, we could compare the variable distributions between train and test data to see if any anomalies stand out, to check if incoming data is statistically different from training data and needs attention.  We may use the test data to model this process, using an [Independent T-Test](http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.stats.ttest_ind.html) comparing each column of variables in train and test data.  Typical p-values are given in the table below, all > 0.05 (no significant difference).  
 
 <table>
 <tr>
@@ -24,66 +24,66 @@ If the test data comes in batches periodically in production, we could compare t
 </tr>
 <tr>
 <td>age</td>
-<td>0.374</td>
+<td>0.37</td>
 </tr>
 <tr>
 <td>sex</td>
-<td>0.807</td>
+<td>0.81</td>
 </tr>
 <tr>
 <td>chest_pain</td>
-<td>0.580</td>
+<td>0.58</td>
 </tr>
 <tr>
 <td>b_pressure</td>
-<td>0.085</td>
+<td>0.09</td>
 </tr>
 <tr>
 <td>cholesterol</td>
-<td>0.774</td>
+<td>0.77</td>
 </tr>
 <tr>
 <td>b_sugar_up</td>
-<td>0.278</td>
+<td>0.28</td>
 </tr>
 <tr>
 <td>ecg_type</td>
-<td>0.552</td>
+<td>0.55</td>
 </tr>
 <tr>
 <td>heart_rate</td>
-<td>0.652</td>
+<td>0.65</td>
 </tr>
 <tr>
 <td>exer_angina</td>
-<td>0.916</td>
+<td>0.92</td>
 </tr>
 <tr>
 <td>exer_depression</td>
-<td>0.948</td>
+<td>0.95</td>
 </tr>
 <tr>
 <td>exer_slope</td>
-<td>0.574</td>
+<td>0.57</td>
 </tr>
 <tr>
 <td>fluor_count</td>
-<td>0.990</td>
+<td>0.99</td>
 </tr>
 <tr>
 <td>thal_defect</td>
-<td>0.685</td>
+<td>0.68</td>
 </tr>
 </table>
 
 #### Modeling and Fitting
-As there are no significant anomalies in the data, we proceed to fit the training set using:
+If there are no significant anomalies in the data, we proceed to fit the training set using:
 + Logistic Regression
 + LinearSVC Support Vector Classification
 
 After normalizing the data columns, we find the training data fits the presence or absence of coronary disease with 80% accuracy using either method.  A standard error of 10% was estimated from cross-validation scores.  
 
-[Logistic regression from Statsmodels](http://statsmodels.sourceforge.net/0.6.0/generated/statsmodels.discrete.discrete_model.Logit.html) of normalized data gives an idea of variable importance.  The values of the coefficients and their order depends on the random split between train and test datasets, but in general *fluoroscopy vessel count (fluor_count)* is always at top, *chest_pain type* is in the top five, and *sex* has more influence than *age*.  Typical values are given below.
+[Logistic regression from Statsmodels](http://statsmodels.sourceforge.net/0.6.0/generated/statsmodels.discrete.discrete_model.Logit.html) of normalized data gives an idea of variable importance.  The coefficients and their absolute value order depends on the random split between train and test datasets, but in general *fluoroscopy vessel count (fluor_count)* is always at top, *chest_pain type* is in the top five, and *sex* has more influence than *age*.  Typical values are given below.
 
 <table>
 <tr>
@@ -92,55 +92,55 @@ After normalizing the data columns, we find the training data fits the presence 
 </tr>
 <tr>
 <td>fluor_count</td>
-<td>1.340</td>
+<td>1.34</td>
 </tr>
 <tr>
 <td>b_sugar_up</td>
-<td>-0.821</td>
+<td>-0.82</td>
 </tr>
 <tr>
 <td>exer_slope</td>
-<td>0.818</td>
+<td>0.82</td>
 </tr>
 <tr>
 <td>chest_pain</td>
-<td>0.813</td>
+<td>0.81</td>
 </tr>
 <tr>
 <td>b_pressure</td>
-<td>0.760</td>
+<td>0.76</td>
 </tr>
 <tr>
 <td>thal_defect</td>
-<td>0.721</td>
+<td>0.72</td>
 </tr>
 <tr>
 <td>sex</td>
-<td>0.652</td>
+<td>0.65</td>
 </tr>
 <tr>
 <td>heart_rate</td>
-<td>-0.412</td>
+<td>-0.41</td>
 </tr>
 <tr>
 <td>exer_angina</td>
-<td>0.309</td>
+<td>0.31</td>
 </tr>
 <tr>
 <td>ecg_type</td>
-<td>0.220</td>
+<td>0.22</td>
 </tr>
 <tr>
 <td>exer_depress</td>
-<td>0.136</td>
+<td>0.14</td>
 </tr>
 <tr>
 <td>cholesterol</td>
-<td>0.135</td>
+<td>0.13</td>
 </tr>
 <tr>
 <td>constant</td>
-<td>-0.124</td>
+<td>-0.12</td>
 </tr>
 <tr>
 <td>age</td>
@@ -149,7 +149,7 @@ After normalizing the data columns, we find the training data fits the presence 
 </table>
 
 #### Prediction
-Assuming we are satisfied there are no significant anomalies in the incoming test data, and that the training data fit assumptions are reasonable, we proceed with test data prediction using:
+Assuming we are satisfied there are no significant anomalies in the incoming test data, and that the training data is not overfit and is reasonable, we proceed with test data prediction using:
 + Logistic Regression
 + LinearSVC Support Vector Classification
 
