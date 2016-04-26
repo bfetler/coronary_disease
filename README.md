@@ -1,10 +1,10 @@
 ## Coronary Heart Disease
-How well can we predict coronary heart disease from patient data?  An early dataset is given in the [UCI Machine Learning Heart Disease Dataset](http://archive.ics.uci.edu/ml/datasets/Heart+Disease).  
+How well can we predict coronary heart disease from patient data?  A dataset from 1988 is given in the [UCI Machine Learning Heart Disease Dataset](http://archive.ics.uci.edu/ml/datasets/Heart+Disease).  
 
 Data was collected from 303 patients at the Cleveland Clinic, both without and with varying degrees of coronary heart disease.  Since there are so few data points, patients with heart disease were grouped together for a binary target variable.  Some of the seventy-five columns of original data were corrupted, and replaced with fourteen columns by the data author.  After data cleaning, 297 patients were left.  Despite the small size, it is a reasonable dataset to start exploring coronary disease prediction.  
 
 #### Exploration
-Data exploration and prediction is given in __coronary_predict.py__.  The data was randomly split into 70% training data and 30% test data.  A scatter matrix of training data shows some correlation between variables, but no strong trends are visible (are they?).  
+Data exploration and prediction is given in __coronary_predict.py__.  The data was randomly split into 70% training data and 30% test data.  A scatter matrix of training data shows some correlation between variables, for example between *maximum heart rate* and *fluoroscopy vessel count*, but no strong trends are apparent.
 
 <img src="https://github.com/bfetler/coronary_disease/blob/master/coronary_disease_plots/scatter_matrix.png" alt="scatter matrix" />
 
@@ -15,7 +15,7 @@ Histograms of train and test data typically show similar patterns, so that varia
 <img src="https://github.com/bfetler/coronary_disease/blob/master/coronary_disease_plots/hist_coronary_test.png" alt="coronary test data histograms" />
 
 #### Evaluating Incoming Test Data
-If we pretend that the test data comes in batches periodically in production, we can compare the variable distributions between train and test data to see if any anomalies stand out, to check if incoming data is statistically different from training data and may need attention.  This was done using an [Independent T-Test](http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.stats.ttest_ind.html) comparing each column of variables in train and test data, with typical p-values given in the table below (all > 0.05, no significant difference).  
+If the test data comes in batches periodically in production, we could compare the variable distributions between train and test data to see if any anomalies stand out, to check if incoming data is statistically different from training data and may need attention.  We use the test data to model this, using an [Independent T-Test](http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.stats.ttest_ind.html) comparing each column of variables in train and test data.  Typical p-values given in the table below, all > 0.05 (no significant difference).  
 
 <table>
 <tr>
@@ -81,9 +81,9 @@ As there are no significant anomalies in the data, we proceed to fit the trainin
 + Logistic Regression
 + LinearSVC Support Vector Classification
 
-After normalizing the data columns, we find the training data fits the presence or absence of coronary disease with 80% accuracy using either method.  A standard error of 10% was estimated from statistics of cross-validation scores.  
+After normalizing the data columns, we find the training data fits the presence or absence of coronary disease with 80% accuracy using either method.  A standard error of 10% was estimated from cross-validation scores.  
 
-[Logistic regression from Statsmodels](xxx) of normalized data gives an idea of variable importance.  The order of coefficients and their values depend on random selection in splitting the train and test sets, but in general *fluorescence count* is always at top, *chest pain* is in the top five, and *sex* has more influence than *age*.  Typical values are as follows.
+[Logistic regression from Statsmodels](http://statsmodels.sourceforge.net/0.6.0/generated/statsmodels.discrete.discrete_model.Logit.html) of normalized data gives an idea of variable importance.  The values of the coefficients and their order depends on the random split between train and test datasets, but in general *fluoroscopy vessel count (fluor_count)* is always at top, *chest_pain type* is in the top five, and *sex* has more influence than *age*.  Typical values are given below.
 
 <table>
 <tr>
