@@ -81,10 +81,75 @@ As there are no significant anomalies in the data, we proceed to fit the trainin
 + Logistic Regression
 + LinearSVC Support Vector Classification
 
-After normalizing the data columns, we find the training data fits the presence or absence of coronary disease with 80% accuracy using either method.  A standard error of 10% was estimated by cross-validation.  
+After normalizing the data columns, we find the training data fits the presence or absence of coronary disease with 80% accuracy using either method.  A standard error of 10% was estimated from statistics of cross-validation scores.  
+
+[Logistic regression from Statsmodels](xxx) of normalized data gives an idea of variable importance.  The order of coefficients and their values depend on random selection in splitting the train and test sets, but in general *fluorescence count* is always at top, *chest pain* is in the top five, and *sex* has more influence than *age*.  Typical values are as follows.
+
+<table>
+<tr>
+<td><strong>variable</strong></td>
+<td><strong>logistic regression coefficient</strong></td>
+</tr>
+<tr>
+<td>fluor_count</td>
+<td>1.340</td>
+</tr>
+<tr>
+<td>b_sugar_up</td>
+<td>-0.821</td>
+</tr>
+<tr>
+<td>exer_slope</td>
+<td>0.818</td>
+</tr>
+<tr>
+<td>chest_pain</td>
+<td>0.813</td>
+</tr>
+<tr>
+<td>b_pressure</td>
+<td>0.760</td>
+</tr>
+<tr>
+<td>thal_defect</td>
+<td>0.721</td>
+</tr>
+<tr>
+<td>sex</td>
+<td>0.652</td>
+</tr>
+<tr>
+<td>heart_rate</td>
+<td>-0.412</td>
+</tr>
+<tr>
+<td>exer_angina</td>
+<td>0.309</td>
+</tr>
+<tr>
+<td>ecg_type</td>
+<td>0.220</td>
+</tr>
+<tr>
+<td>exer_depress</td>
+<td>0.136</td>
+</tr>
+<tr>
+<td>cholesterol</td>
+<td>0.135</td>
+</tr>
+<tr>
+<td>constant</td>
+<td>-0.124</td>
+</tr>
+<tr>
+<td>age</td>
+<td>-0.029</td>
+</tr>
+</table>
 
 #### Prediction
-Assuming we are satisfied there are no significant anomalies in the incoming test data, we proceed with test data prediction using:
+Assuming we are satisfied there are no significant anomalies in the incoming test data, and that the training data fit assumptions are reasonable, we proceed with test data prediction using:
 + Logistic Regression
 + LinearSVC Support Vector Classification
 
