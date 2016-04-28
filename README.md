@@ -24,55 +24,55 @@ If the test data comes in batches periodically in production, we could compare t
 </tr>
 <tr>
 <td>age</td>
-<td>0.37</td>
+<td>0.68</td>
 </tr>
 <tr>
 <td>sex</td>
-<td>0.81</td>
+<td>0.61</td>
 </tr>
 <tr>
 <td>chest_pain</td>
-<td>0.58</td>
+<td>0.82</td>
 </tr>
 <tr>
 <td>b_pressure</td>
-<td>0.09</td>
-</tr>
-<tr>
-<td>cholesterol</td>
-<td>0.77</td>
-</tr>
-<tr>
-<td>b_sugar_up</td>
-<td>0.28</td>
-</tr>
-<tr>
-<td>ecg_type</td>
-<td>0.55</td>
-</tr>
-<tr>
-<td>heart_rate</td>
-<td>0.65</td>
-</tr>
-<tr>
-<td>exer_angina</td>
 <td>0.92</td>
 </tr>
 <tr>
+<td>cholesterol</td>
+<td>0.0.32</td>
+</tr>
+<tr>
+<td>b_sugar_up</td>
+<td>0.0.48</td>
+</tr>
+<tr>
+<td>ecg_type</td>
+<td>0.0.27</td>
+</tr>
+<tr>
+<td>heart_rate</td>
+<td>0.25</td>
+</tr>
+<tr>
+<td>exer_angina</td>
+<td>0.67</td>
+</tr>
+<tr>
 <td>exer_depression</td>
-<td>0.95</td>
+<td>0.12</td>
 </tr>
 <tr>
 <td>exer_slope</td>
-<td>0.57</td>
+<td>0.51</td>
 </tr>
 <tr>
 <td>fluor_count</td>
-<td>0.99</td>
+<td>0.14</td>
 </tr>
 <tr>
 <td>thal_defect</td>
-<td>0.68</td>
+<td>0.51</td>
 </tr>
 </table>
 
@@ -81,7 +81,7 @@ If there are no significant anomalies in the data, we proceed to fit the trainin
 + Logistic Regression
 + LinearSVC Support Vector Classification
 
-After normalizing the data columns, we find the training data fits the presence or absence of coronary disease with 80% accuracy using either method.  A standard error of 10% was estimated from cross-validation scores.  
+After normalizing the data columns, we find the training data fits the presence or absence of coronary disease with 83% accuracy using either method.  A two-sigma error of 16% was estimated from cross-validation scores (cv = 8).  Repeated fits often gave smaller error estimates due to random variation in the train test split.
 
 [Logistic regression from Statsmodels](http://statsmodels.sourceforge.net/0.6.0/generated/statsmodels.discrete.discrete_model.Logit.html) of normalized data gives an idea of variable importance.  The coefficients and their absolute value order depends on the random split between train and test datasets, but in general *fluoroscopy vessel count (fluor_count)* is always at top, *chest_pain type* is in the top five, and *sex* has more influence than *age*.  Typical values are given below.
 
@@ -92,59 +92,59 @@ After normalizing the data columns, we find the training data fits the presence 
 </tr>
 <tr>
 <td>fluor_count</td>
-<td>1.34</td>
-</tr>
-<tr>
-<td>b_sugar_up</td>
-<td>-0.82</td>
-</tr>
-<tr>
-<td>exer_slope</td>
-<td>0.82</td>
-</tr>
-<tr>
-<td>chest_pain</td>
-<td>0.81</td>
-</tr>
-<tr>
-<td>b_pressure</td>
-<td>0.76</td>
+<td>1.17</td>
 </tr>
 <tr>
 <td>thal_defect</td>
-<td>0.72</td>
+<td>0.66</td>
+</tr>
+<tr>
+<td>chest_pain</td>
+<td>0.61</td>
 </tr>
 <tr>
 <td>sex</td>
-<td>0.65</td>
+<td>0.56</td>
+</tr>
+<tr>
+<td>b_sugar_up</td>
+<td>-0.46</td>
+</tr>
+<tr>
+<td>b_pressure</td>
+<td>0.44</td>
 </tr>
 <tr>
 <td>heart_rate</td>
-<td>-0.41</td>
+<td>-0.38</td>
 </tr>
 <tr>
 <td>exer_angina</td>
-<td>0.31</td>
-</tr>
-<tr>
-<td>ecg_type</td>
-<td>0.22</td>
-</tr>
-<tr>
-<td>exer_depress</td>
-<td>0.14</td>
+<td>0.36</td>
 </tr>
 <tr>
 <td>cholesterol</td>
-<td>0.13</td>
+<td>0.34</td>
+</tr>
+<tr>
+<td>exer_slope</td>
+<td>0.31</td>
+</tr>
+<tr>
+<td>exer_depress</td>
+<td>0.27</td>
+</tr>
+<tr>
+<td>ecg_type</td>
+<td>0.27</td>
 </tr>
 <tr>
 <td>constant</td>
-<td>-0.12</td>
+<td>-0.18</td>
 </tr>
 <tr>
 <td>age</td>
-<td>-0.029</td>
+<td>-0.026</td>
 </tr>
 </table>
 
@@ -153,6 +153,6 @@ Assuming we are satisfied there are no significant anomalies in the incoming tes
 + Logistic Regression
 + LinearSVC Support Vector Classification
 
-After normalizing, we find a prediction score of about 80% using either classifier.   
+After normalizing test data, we find a prediction score of about 80% using either classifier.   
 
 The fit and prediction scores vary by up to 15% depending on the random split between train and test data, and so are not highly reliable, but indicate a general feasibility of the method.  
