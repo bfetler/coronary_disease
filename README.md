@@ -81,7 +81,7 @@ If there are no significant anomalies in the data, we proceed to fit the trainin
 + Logistic Regression
 + LinearSVC Support Vector Classification
 
-After normalizing the data columns, we find the training data fits the presence or absence of coronary disease with 83% accuracy using either method.  A two-sigma error of 16% was estimated from cross-validation scores (cv = 8).  Repeated fits often gave smaller error estimates due to random variation in the train test split.
+After normalizing the data columns, we find the training data fits the presence or absence of coronary disease with 83% accuracy using either method.  A two-sigma error of 16% was estimated from cross-validation scores (cv = 8).  Repeated fits sometimes gave smaller error estimates due to random variation in the train test split.
 
 [Logistic regression from Statsmodels](http://statsmodels.sourceforge.net/0.6.0/generated/statsmodels.discrete.discrete_model.Logit.html) of normalized data gives an idea of variable importance.  The coefficients and their absolute value order depends on the random split between train and test datasets, but in general *fluoroscopy vessel count (fluor_count)* is always at top, *chest_pain type* is in the top five, and *sex* has more influence than *age*.  Typical values are given below.
 
