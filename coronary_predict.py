@@ -46,7 +46,9 @@ def read_data(name):
     df = df.dropna()
     df['Y'] = df['risk'].apply(lambda x: 1 if x>0 else 0)
     print("raw df shape %s head\n%s" % (df.shape, df[:3]))
-#    print("raw df stats\n%s" % df.describe())
+    stats = df.describe()
+    print("raw df stats\n%s" % stats)
+    print("raw df        std / mean\n%s" % ( stats.ix['std'] / stats.ix['mean']) )
     return df
 
 def load_data(name, print_out=True):
@@ -138,7 +140,7 @@ def fit_predict(clf, train_X, train_y, test_X, test_y, label='x'):
 #    confusion_report(test_y, new_y)
     return pred_score
 
-def cross_validate(clf, train_X, train_y, cv=5, print_out=False):
+def cross_validate(clf, train_X, train_y, cv=8, print_out=False):
     "Cross-validate fit scores.  Dataset is too small to be very reliable though."
     scores = cross_val_score(clf, train_X, train_y, cv=cv)
     score = scores.mean()
@@ -192,7 +194,7 @@ def main():
 
     clf = LinearSVC()   # score somewhat randomized if not scaled
     fit_predict(clf, train_X, train_y, test_X, test_y, label='svc')
-    cross_validate(clf, train_X, train_y['Y'], cv=8, print_out=True)
+    cross_validate(clf, train_X, train_y['Y'], print_out=True)
     
     explore_pca(train_X)
     
