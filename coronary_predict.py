@@ -13,7 +13,6 @@ from statsmodels.api import Logit as smLogit
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.cross_validation import train_test_split, cross_val_score
-from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.svm import LinearSVC
 from sklearn.linear_model import LogisticRegression as lr
 
@@ -124,12 +123,6 @@ def plot_hists(df, plotdir, label='x', ncols=3):
     plt.tight_layout()
     plt.savefig(plotdir + 'hist_coronary_' + label.lower() + '.png')
 
-def confusion_report(test_y, new_y):
-    "Create classification report and confusion matrix."
-    print("classification report\n%s" % classification_report(test_y['Y'], new_y))
-    cm = confusion_matrix(test_y['Y'], new_y)
-    print("confusion matrix\n%s" % cm)
-
 def fit_predict(clf, train_X, train_y, test_X, test_y, label='x'):
     "Fit train data, predict test data scores."
     clf.fit(train_X, train_y['Y'])
@@ -137,16 +130,15 @@ def fit_predict(clf, train_X, train_y, test_X, test_y, label='x'):
     pred_score = clf.score(test_X, test_y['Y'])
     print("%s: fit score %.5f, predict score %.5f" % (label, fit_score, pred_score))
 #    new_y = clf.predict(test_X)
-#    confusion_report(test_y, new_y)
     return pred_score
 
-def cross_validate(clf, train_X, train_y, cv=8, print_out=False):
+def cross_validate(clf, train_X, train_y, cv=5, print_out=False):
     "Cross-validate fit scores.  Dataset is too small to be very reliable though."
     scores = cross_val_score(clf, train_X, train_y, cv=cv)
     score = scores.mean()
     score_std = scores.std()
     if print_out:
-        print("  CV scores mean %.4f +- %.4f" % (score, 2.0 * score_std))
+        print("  CV scores mean %.4f +- %.4f" % (score, score_std))
         print("  CV raw scores", scores)
     return score, scores
 
@@ -182,7 +174,7 @@ def main():
 #    print("len train_X %d, test_X %d" % (len(train_X), len(test_X)))
     
     plotdir = make_plotdir()
-    plot_scatter_matrix(train_X, plotdir)  # takes a while, not that useful 
+#   plot_scatter_matrix(train_X, plotdir)  # takes a while, not that useful 
     plot_hists(train_X, plotdir, label='Train')
     plot_hists(test_X, plotdir, label='Test')
     
