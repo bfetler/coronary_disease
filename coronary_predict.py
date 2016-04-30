@@ -174,7 +174,7 @@ def main():
 #    print("len train_X %d, test_X %d" % (len(train_X), len(test_X)))
     
     plotdir = make_plotdir()
-#   plot_scatter_matrix(train_X, plotdir)  # takes a while, not that useful 
+    plot_scatter_matrix(train_X, plotdir)  # takes a while, not that useful 
     plot_hists(train_X, plotdir, label='Train')
     plot_hists(test_X, plotdir, label='Test')
     

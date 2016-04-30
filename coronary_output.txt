@@ -64,47 +64,45 @@ dtype: float64
 t-test compare train, test data
     variable         pvalue   Pass
     ---------------  ------   ----
-    age              0.678    True
+    age              0.903    True
     sex              0.608    True
-    chest_pain       0.819    True
-    b_pressure       0.923    True
-    cholesterol      0.323    True
-    b_sugar_up       0.481    True
-    ecg_type         0.270    True
-    heart_rate       0.246    True
+    chest_pain       0.415    True
+    b_pressure       0.684    True
+    cholesterol      0.206    True
+    b_sugar_up       0.991    True
+    ecg_type         0.771    True
+    heart_rate       0.784    True
     exer_angina      0.667    True
-    exer_depress     0.124    True
-    exer_slope       0.509    True
-    fluor_count      0.136    True
-    thal_defect      0.506    True
+    exer_depress     0.085    True
+    exer_slope       0.074    True
+    fluor_count      0.903    True
+    thal_defect      0.306    True
 /Users/bfetler/anaconda/envs/pyana3/lib/python3.5/site-packages/matplotlib/tight_layout.py:222: UserWarning: tight_layout : falling back to Agg renderer
   warnings.warn("tight_layout : falling back to Agg renderer")
-logistic: fit score 0.85507, predict score 0.83333
-  CV scores mean 0.8217 +- 0.1619
-  CV raw scores [ 0.88888889  0.76923077  0.76923077  0.65384615  0.84615385  0.84615385
-  0.92        0.88      ]
-svc: fit score 0.85024, predict score 0.83333
-  CV scores mean 0.8363 +- 0.1747
-  CV raw scores [ 0.88888889  0.80769231  0.76923077  0.65384615  0.88461538  0.84615385
-  0.96        0.88      ]
+logistic: fit score 0.85024, predict score 0.85556
+  CV scores mean 0.8259 +- 0.0397
+  CV raw scores [ 0.85714286  0.83333333  0.87804878  0.7804878   0.7804878 ]
+svc: fit score 0.85024, predict score 0.86667
+  CV scores mean 0.8308 +- 0.0350
+  CV raw scores [ 0.85714286  0.83333333  0.87804878  0.80487805  0.7804878 ]
 PCA explained variance ratio
- [ 0.2340757   0.12968888  0.0950945   0.08864829  0.07571354  0.07029852
-  0.06385952  0.05703473  0.04513645  0.04235529  0.03702638  0.03355606
-  0.02751213]
+ [ 0.23826995  0.13066502  0.09750868  0.08885913  0.08442495  0.06895797
+  0.05894947  0.05383114  0.04609569  0.04086245  0.03379634  0.03108318
+  0.02669603]
 Columns by logistic fit importance (order depends on random split)
-fluor_count     1.171674
-thal_defect     0.661079
-chest_pain      0.605383
-sex             0.562666
-b_sugar_up     -0.455000
-b_pressure      0.440474
-heart_rate     -0.381849
-exer_angina     0.359018
-cholesterol     0.339539
-exer_slope      0.306699
-exer_depress    0.274614
-ecg_type        0.270631
-constant       -0.176639
-age            -0.026080
+fluor_count     1.144823
+thal_defect     0.642002
+exer_depress    0.461569
+sex             0.456540
+chest_pain      0.408117
+b_pressure      0.373465
+exer_angina     0.367192
+b_sugar_up     -0.344706
+heart_rate     -0.320583
+age            -0.313240
+cholesterol     0.234046
+exer_slope      0.215595
+ecg_type        0.214025
+constant       -0.204902
 dtype: float64
 
