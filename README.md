@@ -83,7 +83,7 @@ __*However!*__ One very useful task in data science is to test not the routines,
 
     assertGreater(ttest.pvalue, 0.05)
 
-This of course depends on what your [Null Hypothesis](https://en.wikipedia.org/wiki/Null_hypothesis) is, your assumptions about the data and models, and what issues you are attempting to solve with data science.  
+This of course depends on what your [Null Hypothesis](https://en.wikipedia.org/wiki/Null_hypothesis) is, your assumptions about the data and models, and what issues you are attempting to solve with data science.    
 
 #### Modeling and Fitting
 If there are no significant anomalies in the data, we proceed to fit the training set using:
