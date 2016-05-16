@@ -77,9 +77,9 @@ If the test data comes in batches periodically in production, we could compare t
 </table>
 
 ##### A Note on Unit Testing
-Unit testing of data science methods may not be very useful, unless one is writing a new algorithm.  One may test if an algorithm returns a result, or good results, or implements a particular API.  Most of the Scikit-learn methods are already tested for this, provided one follows suggestions for sensible data as described in the docs, such as scaling the data beforehand if needed.  
+Unit testing of data science methods may be useful when writing a new algorithm or testing routines.  One may test if an algorithm returns a result, or good results, or implements a particular API.  Most of the Scikit-learn methods are already tested for this, provided one follows suggestions for sensible data as described in the docs, such as scaling the data beforehand if needed.  
 
-__*However!*__ One very useful task in data science is to test not the routines, but the data.  These types of tests are represented above.  For example, is the distribution of parameters in the training and test sets the same, statistically speaking?  Are they the same for incoming data in a new data stream?  If not, one may flag the data in production.  For example, for each data column one may write:
+__*However!*__ One very useful task in data science is to test not just the routines, but the data.  These types of tests are represented above.  For example, is the distribution of parameters in the training and test sets the same, statistically speaking?  Are they the same for incoming data in a new data stream?  If not, one may flag the data in production.  For example, for each data column one may write:
 
     assertGreater(ttest.pvalue, 0.05)
 
