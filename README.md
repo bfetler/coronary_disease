@@ -92,7 +92,7 @@ If there are no significant anomalies in the data, we proceed to fit the trainin
 
 After scaling the data columns, we find the training data fits the presence or absence of coronary disease with 82% accuracy using either method.  A standard error of 7% was estimated from cross-validation scores (cv = 5), which varies by 1-2% due to the small number of CV folds and random variation in the train test split.
 
-[Logistic Regression](http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html) of normalized data gives an idea of variable importance.  The coefficients and their absolute value order depends on the random split between train and test datasets, but in general *fluoroscopy vessel count (fluor_count)* is always at top, *chest_pain type* is in the top five, and *sex* has more influence than *age*.  Typical values are given below.
+[Logistic Regression](http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html) of normalized data gives an idea of variable importance, provided the coefficients are not collinear.  The coefficients and their absolute value order depends on the random split between train and test datasets.  In general, *fluoroscopy vessel count (fluor_count)* is always at top, *chest_pain type* is in the top five, and *sex* has more influence than *age*.  Typical values are given below.
 
 <table>
 <tr>
