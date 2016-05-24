@@ -1,7 +1,7 @@
 ## Coronary Heart Disease
-How well can we predict coronary heart disease from patient data?  A dataset from 1988 is given in the [UCI Machine Learning Heart Disease Dataset](http://archive.ics.uci.edu/ml/datasets/Heart+Disease).  
+How well can we predict coronary heart disease from patient data?  Ideally, we'd like to measure a set of parameters on a patient, and predict the likelihood of whether or not they will develop heart disease, when, and the severity of the disease.  
 
-Data was collected from 303 patients at the Cleveland Clinic, both without and with varying degrees of coronary heart disease.  Since there are so few data points, patients with heart disease were grouped together for a binary target variable.  Some of the seventy-five columns of original data were corrupted, and replaced with fourteen columns by the data author.  After data cleaning, 297 patients were left.  Despite the small size, it is a reasonable dataset to start exploring coronary disease prediction.  
+A coronory heart disease dataset from a 1988 study is given in the [UCI Machine Learning Heart Disease Dataset](http://archive.ics.uci.edu/ml/datasets/Heart+Disease).  Data was collected from 303 patients at the Cleveland Clinic, both without and with varying degrees of coronary heart disease.  As there are few data points, patients with varying severity of heart disease were grouped together in a target variable, as were those without heart disease.  Some of the seventy-five columns of original data were corrupted, and replaced with fourteen columns by the data author.  After data cleaning, 297 patients were left.  Despite the small size, it is a reasonable dataset to start exploring coronary disease prediction.  
 
 #### Exploration
 Data exploration and prediction is given in __coronary_predict.py__.  The data was randomly split into 70% training data and 30% test data.  A scatter matrix of training data shows some correlation between variables, for example between *maximum heart rate* and *fluoroscopy vessel count*, but no strong trends are apparent.
@@ -15,7 +15,7 @@ Histograms of train and test data typically show similar patterns, so that varia
 <img src="https://github.com/bfetler/coronary_disease/blob/master/coronary_disease_plots/hist_coronary_test.png" alt="coronary test data histograms" />
 
 #### Evaluating Incoming Test Data
-If the test data comes in batches periodically in production, we could compare the variable distributions between train and test data to see if any anomalies stand out, to check if incoming data is statistically different from training data and needs attention.  We may use the test data to model this process, using an [Independent T-Test](http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.stats.ttest_ind.html) comparing each column of variables in train and test data.  Typical p-values are given in the table below, all > 0.05 (no significant difference).  
+If the test data for groups of patients comes in batches periodically, we could compare the variable distributions between train and test data to see if any anomalies stand out, to check if incoming data is statistically different from training data and needs attention.  We may use the test data to model this process, using an [Independent T-Test](http://docs.scipy.org/doc/scipy-0.17.0/reference/generated/scipy.stats.ttest_ind.html) comparing each column of variables in train and test data.  Typical p-values are given in the table below, all > 0.05 (no significant difference).  
 
 <table>
 <tr>
@@ -83,16 +83,16 @@ __*However!*__ One very useful task in data science is to test not just the rout
 
     assertGreater(ttest.pvalue, 0.05)
 
-This of course depends on what your [Null Hypothesis](https://en.wikipedia.org/wiki/Null_hypothesis) is, your assumptions about the data and models, and what issues you are attempting to solve with data science.    
+This of course depends on what your [Null Hypothesis](https://en.wikipedia.org/wiki/Null_hypothesis) is, your assumptions about the data and models, and what issues you are attempting to solve with data science.  In this case, we are trying to model heart disease prediction in patients.   
 
 #### Modeling and Fitting
 If there are no significant anomalies in the data, we proceed to fit the training set using:
 + Logistic Regression
 + LinearSVC Support Vector Classification
 
-After scaling the data columns, we find the training data fits the presence or absence of coronary disease with 82% accuracy using either method.  A standard error of 7% was estimated from cross-validation scores (cv = 5), which varies by 1-2% due to the small number of CV folds and random variation in the train test split.
+After scaling the data columns, we find the training data fits the presence or absence of coronary disease with an accuracy of 82% +- 7% using either method.  A standard error was estimated from 5-fold cross-validation scores, which varies by 1-2% due to the small amount of data and random variation in the train test split.
 
-[Logistic Regression](http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html) of normalized data gives an idea of variable importance, provided the coefficients are not collinear.  The coefficients and their absolute value order depends on the random split between train and test datasets.  In general, *fluoroscopy vessel count (fluor_count)* is always at top, *chest_pain type* is in the top five, and *sex* has more influence than *age*.  Typical values are given below.
+[Logistic Regression](http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html) of normalized data gives an idea of variable importance, provided the coefficients are not collinear.  The order of the coefficients varies somewhat, depending on randomness in the train and test datasets.  In general, *fluoroscopy vessel count (fluor_count)* is always at top, *chest_pain type* is in the top five, and *sex* has more influence than *age*.  Typical values are given below.
 
 <table>
 <tr>
@@ -162,6 +162,4 @@ Assuming we are satisfied there are no significant anomalies in the incoming tes
 + Logistic Regression
 + LinearSVC Support Vector Classification
 
-After normalizing test data, we find a prediction score of about 80% using either classifier.   
-
-The fit and prediction scores vary by up to 7-8% depending on the random split between train and test data, and so are not highly reliable, but indicate a general feasibility of the method.  
+After normalizing test data, we find a prediction score accuracy of about 80% +- 7% using either classifier.   The fit and prediction scores depend on the random split between train and test data, and are as reliable as random variation in the data allows.  Nonetheless, the methods indicate a general feasibility of predicting heart disease in patients.  
