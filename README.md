@@ -87,12 +87,12 @@ This of course depends on what your [Null Hypothesis](https://en.wikipedia.org/w
 
 #### Modeling and Fitting
 If there are no significant anomalies in the data, we proceed to fit the training set using:
-+ Logistic Regression
-+ LinearSVC Support Vector Classification
++ [Logistic Regression](http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html)
++ [LinearSVC (Linear Support Vector Classification)](http://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVC.html)
 
 After scaling the data columns, we find the training data fits the presence or absence of coronary disease with an accuracy of 82% +- 7% using either method.  A standard error was estimated from 5-fold cross-validation scores, which varies by 1-2% due to the small amount of data and random variation in the train test split.
 
-[Logistic Regression](http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html) of normalized data gives an idea of variable importance, provided the coefficients are not collinear.  The order of the coefficients varies somewhat, depending on randomness in the train and test datasets.  In general, *fluoroscopy vessel count (fluor_count)* is always at top, *chest_pain type* is in the top five, and *sex* has more influence than *age*.  Typical values are given below.
+Logistic Regression of normalized data gives an idea of variable importance, provided the coefficients are not collinear.  The order of the coefficients varies somewhat, depending on randomness in the train and test datasets.  In general, *fluoroscopy vessel count (fluor_count)* is always at top, *chest_pain type* is in the top five, and *sex* has more influence than *age*.  Typical values are given below.
 
 <table>
 <tr>
