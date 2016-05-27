@@ -83,7 +83,7 @@ __*However!*__ One very useful task in data science is to test not just the rout
 
     assertGreater(ttest.pvalue, 0.05)
 
-This of course depends on what your [Null Hypothesis](https://en.wikipedia.org/wiki/Null_hypothesis) is, your assumptions about the data and models, and what issues you are attempting to solve with data science.  In this case, we are trying to model heart disease prediction in patients.   
+This of course depends on what your [Null Hypothesis](https://en.wikipedia.org/wiki/Null_hypothesis) is, your assumptions about the data and models, and what issues you are attempting to solve with data science.  In this case, we are trying to predict heart disease in patients.   
 
 #### Modeling and Fitting
 If there are no significant anomalies in the data, we proceed to fit the training set using:
@@ -160,6 +160,9 @@ After scaling the data columns, we find the training data fits the presence or a
 #### Prediction
 Assuming we are satisfied there are no significant anomalies in the incoming test data, and that the training data is not overfit and is reasonable, we proceed with test data prediction using:
 + Logistic Regression
-+ LinearSVC Support Vector Classification
++ LinearSVC
 
-After normalizing test data, we find a prediction score accuracy of about 80% +- 7% using either classifier.   The fit and prediction scores depend on the random split between train and test data, and are as reliable as random variation in the data allows.  Nonetheless, the methods indicate a general feasibility of predicting heart disease in patients.  
+After normalizing test data, we find a prediction score accuracy of about 80% +- 7% using either classifier.   The fit and prediction scores depend on the random split between train and test data, and are as reliable as random variation in the data allows.  Logistic Regression gives an idea of variable importance, while LinearSVC is less sensitive to variable dependence.  Both methods are about as fast.  We would probably use Logistic Regression for parameter importance modeling, and LinearSVC for production, though more data is needed.  
+
+#### Conclusion
+These methods indicate a general feasibility of predicting heart disease in patients.  
