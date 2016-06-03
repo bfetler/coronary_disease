@@ -1,7 +1,7 @@
 ## Coronary Heart Disease
 How well can we predict heart disease from patient data?  Ideally, we'd like to measure a set of parameters on a patient, and predict the likelihood of whether or not they will develop heart disease, when, and the severity of the disease.  
 
-A dataset from a 1988 coronory disease study is given in the [UCI Machine Learning Heart Disease Dataset](http://archive.ics.uci.edu/ml/datasets/Heart+Disease).  Data was collected from 303 patients at the Cleveland Clinic, both without and with varying degrees of heart disease.  As there are few data points, patients with varying severity of heart disease were grouped together in a target variable, as were those without heart disease.  Some of the seventy-five columns of original data were corrupted, and replaced with fourteen columns by the data author.  After data cleaning, 297 patients were left.  Despite the small size, it is a reasonable dataset to start exploring coronary disease prediction.  
+A dataset from a 1988 coronory disease study is given in the [UCI Machine Learning Heart Disease Dataset](http://archive.ics.uci.edu/ml/datasets/Heart+Disease).  Data was collected from 303 patients at the Cleveland Clinic, both without and with varying degrees of heart disease.  As there are few data points, patients with varying severity of heart disease were grouped together in a target variable.  Some of the seventy-five columns of original data were corrupted, and replaced with fourteen columns by the data author.  After data cleaning, 297 patients were left.  Despite the small size, it is a reasonable dataset to start exploring coronary disease prediction.  
 
 #### Exploration
 Data exploration and prediction is given in __coronary_predict.py__.  The data was randomly split into 70% training data and 30% test data.  A scatter matrix of training data shows some correlation between variables, for example between *maximum heart rate* and *fluoroscopy vessel count*, but no strong trends are apparent.
@@ -20,7 +20,7 @@ If the test data for groups of patients comes in batches periodically, we could 
 <table>
 <tr>
 <td><strong>variable</strong></td>
-<td><strong>p-value of train, test</strong></td>
+<td><strong>T-test p-value of train, test</strong></td>
 </tr>
 <tr>
 <td>age</td>
@@ -162,7 +162,7 @@ Assuming we are satisfied there are no significant anomalies in the incoming tes
 + Logistic Regression
 + LinearSVC
 
-After normalizing test data, we find a prediction score accuracy of about 80% +- 7% using either classifier.   The fit and prediction scores depend on the random split between train and test data, and are as reliable as random variation in the data allows.  Logistic Regression gives an idea of variable importance, while LinearSVC is less sensitive to variable dependence.  Both methods are about as fast.  We would probably use Logistic Regression for parameter importance modeling, and LinearSVC for production, though more data is needed.  
+After normalizing test data, we find a prediction score accuracy of about 80% +- 7% using either classifier.   The fit and prediction scores depend on the random split between train and test data, and are as reliable as random variation in the data allows.  Logistic Regression gives an idea of variable importance, while LinearSVC is less sensitive to variable dependence.  Both methods are about as fast.  We suggest using Logistic Regression for parameter importance modeling, and LinearSVC for more accurate training and production tests, though more data is needed.  
 
 #### Conclusion
 These methods indicate a general feasibility of predicting heart disease in patients.  
