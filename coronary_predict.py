@@ -109,7 +109,7 @@ def plot_hists(df, plotdir, label='x', ncols=3):
     "Plot histograms of data columns in one plot."
     plt.clf()
     f = plt.figure(1)
-    f.suptitle(label + " Data Histograms", fontsize=9)
+    f.suptitle(label + " Data Histograms", fontsize=12)
     vlist = list(df.columns)
     nrows = len(vlist) // ncols
     if len(vlist) % ncols > 0:
@@ -117,9 +117,10 @@ def plot_hists(df, plotdir, label='x', ncols=3):
     for i, var in enumerate(vlist):
         plt.subplot(nrows, ncols, i+1)
         plt.hist(df[var].values, bins=15)
-        plt.title(var, fontsize=9)
+        plt.title(var, fontsize=10)
         plt.tick_params(labelbottom='off', labelleft='off')
     plt.tight_layout()
+    plt.subplots_adjust(top=0.88)
     plt.savefig(plotdir + 'hist_coronary_' + label.lower() + '.png')
 
 def fit_predict(clf, train_X, train_y, test_X, test_y, label='x'):
