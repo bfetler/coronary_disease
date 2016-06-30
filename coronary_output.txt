@@ -64,45 +64,45 @@ dtype: float64
 t-test compare train, test data
     variable         pvalue   Pass
     ---------------  ------   ----
-    age              0.211    True
-    sex              0.434    True
-    chest_pain       0.227    True
-    b_pressure       0.425    True
-    cholesterol      0.819    True
-    b_sugar_up       0.468    True
-    ecg_type         0.107    True
-    heart_rate       0.561    True
-    exer_angina      0.916    True
-    exer_depress     0.681    True
-    exer_slope       0.648    True
-    fluor_count      0.798    True
-    thal_defect      0.371    True
+    age              0.241    True
+    sex              0.981    True
+    chest_pain       0.415    True
+    b_pressure       0.648    True
+    cholesterol      0.557    True
+    b_sugar_up       0.155    True
+    ecg_type         0.930    True
+    heart_rate       0.709    True
+    exer_angina      0.333    True
+    exer_depress     0.051    True
+    exer_slope       0.720    True
+    fluor_count      0.678    True
+    thal_defect      0.291    True
 /Users/bfetler/anaconda/envs/pyana3/lib/python3.5/site-packages/matplotlib/tight_layout.py:222: UserWarning: tight_layout : falling back to Agg renderer
   warnings.warn("tight_layout : falling back to Agg renderer")
-logistic: fit score 0.86473, predict score 0.84444
+logistic: fit score 0.85507, predict score 0.83333
+  CV scores mean 0.8264 +- 0.0584
+  CV raw scores [ 0.71428571  0.88095238  0.85365854  0.85365854  0.82926829]
 Columns by logistic fit importance (order depends on random split)
-fluor_count     1.168563
-exer_depress    0.836036
-thal_defect     0.667616
-chest_pain      0.508096
-b_pressure      0.476916
-sex             0.426454
-ecg_type        0.395893
-b_sugar_up     -0.383068
-cholesterol     0.234021
-exer_angina     0.219046
-heart_rate     -0.211014
-age            -0.042074
-exer_slope      0.003095
+fluor_count     1.081190
+sex             0.954739
+chest_pain      0.777024
+b_pressure      0.507641
+b_sugar_up     -0.444574
+thal_defect     0.439154
+heart_rate     -0.434123
+exer_slope      0.396378
+exer_angina     0.343351
+cholesterol     0.258833
+exer_depress    0.174194
+ecg_type        0.154702
+age            -0.059295
 dtype: float64
-Intercept: 0.0266273188021
-  CV scores mean 0.8211 +- 0.0736
-  CV raw scores [ 0.8372093   0.85365854  0.82926829  0.90243902  0.68292683]
-svc: fit score 0.86473, predict score 0.84444
-  CV scores mean 0.8162 +- 0.0687
-  CV raw scores [ 0.8372093   0.85365854  0.82926829  0.87804878  0.68292683]
+Intercept: -0.443350675038
+svc: fit score 0.85990, predict score 0.83333
+  CV scores mean 0.8311 +- 0.0493
+  CV raw scores [ 0.73809524  0.88095238  0.85365854  0.85365854  0.82926829]
 PCA explained variance ratio
- [ 0.2372853   0.11872063  0.10355719  0.08085521  0.0737409   0.0698469
-  0.06527115  0.05878339  0.0561638   0.04550009  0.03357523  0.03017514
-  0.02652507]
+ [ 0.23151747  0.12504649  0.10484165  0.08732984  0.07779372  0.06735396
+  0.06287085  0.05755437  0.04969511  0.04565232  0.03345715  0.0295075
+  0.02737956]
 

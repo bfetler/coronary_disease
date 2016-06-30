@@ -30,17 +30,14 @@ def read_data(name):
     "Read and clean data from file."
     f = "data/processed.%s.data" % (name)
     print("read %s" % f)
-#    col_names = ['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach', \
-#        'exang', 'oldpeak', 'slope', 'ca', 'thal', 'risk']
+#    orig_col_names = ['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach', 'exang', 'oldpeak', 'slope', 'ca', 'thal', 'risk']
     col_names = ['age', 'sex', 'chest_pain', 'b_pressure', 'cholesterol', \
         'b_sugar_up', 'ecg_type', 'heart_rate', 'exer_angina', \
         'exer_depress', 'exer_slope', 'fluor_count', 'thal_defect', 'risk']
     df = pd.read_csv(f, names = col_names)
-    # check for ? missing values - six in mostly different columns
-    # no other non-numeric characters
     for c in col_names:
         df[c] = df[c].apply(lambda s: np.nan if s=='?' else float(s))
-        # columns w/ ? are str not int, convert to float
+        # '?' char is nan, columns with it are str, convert to numeric
     df = df.dropna()
     df['Y'] = df['risk'].apply(lambda x: 1 if x>0 else 0)
     print("raw df shape %s head\n%s" % (df.shape, df[:3]))
@@ -49,14 +46,15 @@ def read_data(name):
     print("raw df        std / mean\n%s" % ( stats.ix['std'] / stats.ix['mean']) )
     return df
 
-def load_data(name, print_out=True):
+def load_data(name, plotdir, print_out=True):
     "Read data and split into train, test data."
     df = read_data(name)
-    train, test = train_test_split(df, test_size=0.3)  # random_state=10
+    train, test = train_test_split(df, test_size=0.3)
+#   plot_scatter_matrix(train, plotdir)  # takes a while, not that useful 
     yvars = ['risk', 'Y']
     train_y = train[yvars]
     test_y  = test[yvars]
-#    train_r = train['risk']    # for five-way multi-class classification
+#   train_r = train['risk']    # for five-way multi-class classification
     train = train.drop(['risk', 'Y'], axis=1)
     test  = test.drop(['risk', 'Y'],  axis=1)
     if print_out:
@@ -79,10 +77,9 @@ def scale_data(train_X, test_X, print_out=False):
         print("train std %s" % [train_X[:, j].std() for j in range(train_X.shape[1]) ])
         print("test means %s" % [test_X[:, j].mean() for j in range(test_X.shape[1]) ])
         print("test std %s" % [test_X[:, j].std() for j in range(test_X.shape[1]) ])
-        # train_X columns are scaled by definition, test_X off by 1-2% (not surprising)
+        # train_X columns are scaled, test_X rescaled off by 1-2% (not too bad)
         print("train_X mean %.5f std %.5f" % (train_X.mean(), train_X.std()))
         print("test_X mean %.5f std %.5f" % (test_X.mean(), test_X.std()))
-    # scaler.inverse_transform(train_X)
     return train_X, test_X
 
 def test_incoming(test_X, train_X):
@@ -95,13 +92,13 @@ def test_incoming(test_X, train_X):
         pval = sst.ttest_ind(test_X[var], train_X[var]).pvalue
         print("    %-15s  %.3f    %s" % (var, pval, pval>0.05))
 #       assert(pval > 0.05)  # in production, assert each column passes
-# if only one or few values at a time, test where they are in train distribution
-# is this a good idea?
+#       also depends how many values in a distribution used to make t-test
 
 def plot_scatter_matrix(df, plotdir):
     "Plot scatter matrix."
+    print('plotting scatter matrix, this may take a while')
     plt.clf()
-    pd_scatter_matrix(df, figsize=(14,14))
+    pd_scatter_matrix(df, figsize=(16,16))
     plt.suptitle("Scatter Matrix", fontsize=14)
     plt.savefig(plotdir + 'scatter_matrix.png')
 
@@ -129,7 +126,6 @@ def fit_predict(clf, train_X, train_y, test_X, test_y, label='x'):
     fit_score = clf.score(train_X, train_y['Y'])
     pred_score = clf.score(test_X, test_y['Y'])
     print("%s: fit score %.5f, predict score %.5f" % (label, fit_score, pred_score))
-#    new_y = clf.predict(test_X)
     return pred_score
 
 def cross_validate(clf, train_X, train_y, cv=5, print_out=False):
@@ -142,12 +138,12 @@ def cross_validate(clf, train_X, train_y, cv=5, print_out=False):
         print("  CV raw scores", scores)
     return score, scores
 
+# logistic function: p(x) = 1 / (1 + exp(a1*x1 + a2*x2 + b))
 def print_lr_coefs(clf, X_labels):
     "print logistic regression coefficients"    
     plist = ((lab, val) for lab, val in zip(X_labels, clf.coef_[0]))
     plist = sorted(plist, key=lambda e: np.abs(e[1]), reverse=True)
     plist = pd.Series(data = (e[1] for e in plist), index = (e[0] for e in plist))
-#    print('p(x) = 1 / (1 + exp(a1*x1 + a2*x2 + b))  "logistic function"')
     print("Columns by logistic fit importance (order depends on random split)\n%s" % plist)
     print("Intercept:", clf.intercept_[0])
 # usually in top 4-5: ['fluor_count', 'thal_defect', 'sex', 'max_heart_rate']
@@ -156,17 +152,15 @@ def explore_pca(train_X):
     pca = PCA()
     pout = pca.fit(train_X)
     print("PCA explained variance ratio\n", pout.explained_variance_ratio_)
-# no huge advantage, takes 8 comps out of 13 to reach 80% total variance
+# no big advantage to removing components, it takes 8 PCA comps out of 13 to reach 80% total variance
 
 
 def main():
-    train_X, test_X, train_y, test_y = load_data('cleveland', print_out=False)
+    plotdir = make_plotdir()
+    train_X, test_X, train_y, test_y = load_data('cleveland', plotdir, print_out=False)
     X_labels = list(train_X.columns)
     test_incoming(test_X, train_X)
-#    print("len train_X %d, test_X %d" % (len(train_X), len(test_X)))
     
-    plotdir = make_plotdir()
-#    plot_scatter_matrix(train_X, plotdir)  # takes a while, not that useful 
     plot_hists(train_X, plotdir, label='Train')
     plot_hists(test_X, plotdir, label='Test')
     
@@ -174,17 +168,17 @@ def main():
     
     clf = lr()
     fit_predict(clf, train_X, train_y, test_X, test_y, label='logistic')
-    print_lr_coefs(clf, X_labels)
     cross_validate(clf, train_X, train_y['Y'], print_out=True)
+    print_lr_coefs(clf, X_labels)
 
-    clf = LinearSVC()   # score somewhat randomized if not scaled
+    clf = LinearSVC()   # data must first be scaled
     fit_predict(clf, train_X, train_y, test_X, test_y, label='svc')
     cross_validate(clf, train_X, train_y['Y'], print_out=True)
     
     explore_pca(train_X)
     
-    # repeated runs gives cv scores 0.7 to 0.9, 2*std 0.1 to 0.2
-    # almost the same for lr, svc; depends on random train_test_split
+# repeated runs gives cv scores 0.7 to 0.9, std 0.04 to 0.08
+# almost the same for lr, svc; depends on random train_test_split
 
 if __name__ == '__main__':
     main()
