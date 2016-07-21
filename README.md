@@ -4,7 +4,7 @@ How well can we predict heart disease from patient data?  Ideally, we'd like to 
 A dataset from a 1988 coronory disease study is given in the [UCI Machine Learning Heart Disease Dataset](http://archive.ics.uci.edu/ml/datasets/Heart+Disease).  Data was collected at the Cleveland Clinic from 303 patients with and without heart disease.  As there are few data points, patients with varying severity of heart disease were grouped together in a target variable.  Some of the seventy-five columns of original data were corrupted, and replaced with fourteen columns by the data author.  After data cleaning, 297 patients were left.  Despite the small size, it is a reasonable dataset to start exploring coronary disease prediction.  
 
 #### Exploration
-Data exploration and prediction is given in __coronary_predict.py__.  The data was randomly split into 70% training data and 30% test data.  A scatter matrix of training data shows some correlation between variables, for example between *maximum heart rate* and *fluoroscopy vessel count*, but no strong trends are apparent.
+Data exploration and prediction is given in __coronary_predict.py__.  The data was randomly split into 70% training data and 30% test data.  A scatter matrix of training data shows some correlation between variables, for example between *maximum heart rate* and *fluoroscopy vessel count*, but no strong trends are apparent.  Due to large variability (standard error divided by mean greater than 2), the *b_sugar_up* column was dropped.  
 
 <img src="https://github.com/bfetler/coronary_disease/blob/master/coronary_disease_plots/scatter_matrix.png" alt="scatter matrix" />
 
