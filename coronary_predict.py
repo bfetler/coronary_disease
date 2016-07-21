@@ -64,6 +64,15 @@ def load_data(name, plotdir, print_out=True):
         print("test head\n%s" % (test[:3]))
         print("train_y set %s, test_y set %s" % (set(train_y['Y']), set(test_y['Y'])))
         print("train_y stats\n%s\ntest_y stats\n%s" % (train_y.describe(), test_y.describe()))
+
+    drop_col = ['b_sugar_up']
+    print('dropping high std/mean columns', drop_col)
+    train = train.drop(drop_col, axis=1)
+    test  = test.drop(drop_col, axis=1)
+#   drop_col = ['age','exer_slope']
+#   print('dropping low importance columns', drop_col)
+#   train = train.drop(drop_col, axis=1)
+#   test  = test.drop(drop_col, axis=1)
     return train, test, train_y, test_y
 
 def scale_data(train_X, test_X, print_out=False):
@@ -130,7 +139,8 @@ def fit_predict(clf, train_X, train_y, test_X, test_y, label='x'):
 
 def cross_validate(clf, train_X, train_y, cv=5, print_out=False):
     "Cross-validate fit scores.  Dataset is too small to be very reliable though."
-    scores = cross_val_score(clf, train_X, train_y, cv=cv)
+    scores = cross_val_score(clf, train_X, train_y, cv=cv, scoring='f1')
+# scoring = 'accuracy' | 'f1' | 'precision' | 'recall'
     score = scores.mean()
     score_std = scores.std()
     if print_out:
