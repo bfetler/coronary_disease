@@ -43,10 +43,6 @@ If the test data for groups of patients comes in batches periodically, we could 
 <td>0.56</td>
 </tr>
 <tr>
-<td>b_sugar_up</td>
-<td>0.16</td>
-</tr>
-<tr>
 <td>ecg_type</td>
 <td>0.93</td>
 </tr>
@@ -114,10 +110,6 @@ Logistic Regression of normalized data gives an idea of variable importance, pro
 <tr>
 <td>b_pressure</td>
 <td>0.51</td>
-</tr>
-<tr>
-<td>b_sugar_up</td>
-<td>-0.44</td>
 </tr>
 <tr>
 <td>intercept</td>
