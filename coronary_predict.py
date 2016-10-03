@@ -75,7 +75,7 @@ def load_data(name, plotdir, print_out=True):
 #   test  = test.drop(drop_col, axis=1)
     return train, test, train_y, test_y
 
-def scale_data(train_X, test_X, cols=None, print_out=True):
+def scale_data(train_X, test_X, cols=None, print_out=False):
     """Scale data for transform.  
        cols: optional parameter specifies columns to scale (default is all)."""
     scaler = StandardScaler()
@@ -87,17 +87,25 @@ def scale_data(train_X, test_X, cols=None, print_out=True):
         test_X  = scaler.transform(test_X)
     if print_out:
         print("scaler mean %s\nscaler std %s" % (scaler.mean_, scaler.scale_))
-#       print("train means %s" % [train_X[:, j].mean() for j in range(train_X.shape[1]) ])
-#       print("train std %s" % [train_X[:, j].std() for j in range(train_X.shape[1]) ])
-#       print("test means %s" % [test_X[:, j].mean() for j in range(test_X.shape[1]) ])
-#       print("test std %s" % [test_X[:, j].std() for j in range(test_X.shape[1]) ])
-        # train_X columns are scaled, test_X rescaled off by 1-2% (not too bad)
         if cols:
             print("train_X mean \n%s train_X std \n%s" % (train_X.mean(), train_X.std()))
             print("test_X mean \n%s test_X std \n%s" % (test_X.mean(), test_X.std()))
         else:
             print("train_X mean %.5f std %.5f" % (train_X.mean(), train_X.std()))
             print("test_X mean %.5f std %.5f" % (test_X.mean(), test_X.std()))
+        # train_X columns are scaled, test_X rescaled off by 1-2% (not too bad)
+    return train_X, test_X
+
+def one_hot_encode(train_X, test_X, cols):
+    "create series of one-hot encoded variables from column list"
+    for col in cols:
+        vals = set(train_X[col].values)
+        for val in vals:
+            newcol = '%s%d' % (col, int(val))
+            train_X[newcol] = train_X[col].apply(lambda x: 1 if x==val else 0)
+            test_X[newcol] = test_X[col].apply(lambda x: 1 if x==val else 0)
+    train_X = train_X.drop(cols, axis=1)
+    test_X  = test_X.drop(cols, axis=1)
     return train_X, test_X
 
 def test_incoming(test_X, train_X):
@@ -177,15 +185,19 @@ def explore_pca(train_X):
 def main():
     plotdir = make_plotdir()
     train_X, test_X, train_y, test_y = load_data('cleveland', plotdir, print_out=False)
-    X_labels = list(train_X.columns)
+#   X_labels = list(train_X.columns)
     test_incoming(test_X, train_X)
     
     plot_hists(train_X, plotdir, label='Train')
     plot_hists(test_X, plotdir, label='Test')
     
-#   train_X, test_X = scale_data(train_X, test_X)
     scale_cols = ['age','b_pressure','cholesterol','heart_rate','exer_depress','fluor_count']
     train_X, test_X = scale_data(train_X, test_X, scale_cols)
+#   one_hot_cols = ['chest_pain','ecg_type','exer_slope','thal_defect']
+    one_hot_cols = ['chest_pain']
+    train_X, test_X = one_hot_encode(train_X, test_X, one_hot_cols)
+#   print('one hot encode train_X head\n', train_X[:3])
+    X_labels = list(train_X.columns)
     
     clf = lr()
     fit_predict(clf, train_X, train_y, test_X, test_y, label='logistic')
