@@ -154,7 +154,7 @@ Assuming we are satisfied there are no significant anomalies in the incoming tes
 + Logistic Regression
 + LinearSVC
 
-After normalizing test data, we find a prediction score accuracy of about 80% +- 7% using either classifier.   The fit and prediction scores depend on the random split between train and test data, and are as reliable as random variation in the data allows.  Logistic Regression gives an idea of variable importance, while LinearSVC is less sensitive to variable dependence.  Both methods are about as fast.  We suggest using Logistic Regression for parameter importance modeling, and LinearSVC for more accurate training and production tests, though more data is needed.  
+Using the test data, we find a prediction score accuracy of about 80% +- 7% using either classifier.   The fit and prediction scores depend on the random split between train and test data, and are as reliable as random variation in the data allows.  Logistic Regression gives an idea of variable importance, while LinearSVC is less sensitive to variable dependence.  Both methods are about as fast.  We suggest using Logistic Regression for parameter importance modeling, and LinearSVC for more accurate training and production tests, though more data is needed.  
 
 #### Conclusion
-These methods indicate a general feasibility of predicting heart disease in patients.  
+These methods indicate a general feasibility of predicting heart disease in patients.  However, better quality data is needed before quantifying the results.  
